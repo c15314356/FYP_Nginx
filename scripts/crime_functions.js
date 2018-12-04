@@ -56,6 +56,7 @@ function openPage(pageName, elmnt) {
     elmnt.style.backgroundColor = "orange";
 }
 
+// Example Graph template from Chart.js
 function loadgraph() {
     var canvas = document.getElementById('myChart');
     var data = {
