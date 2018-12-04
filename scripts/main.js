@@ -2,7 +2,8 @@
 $(function() {
     
     $.ajax({
-        url: 'http://51.141.10.255:9000/db',
+        // url: 'http://51.141.10.255:9000/db',
+        url: 'http://127.0.0.1:9000/db',
         method: 'GET',
         withCredentials: true
     }).done(function(response){
