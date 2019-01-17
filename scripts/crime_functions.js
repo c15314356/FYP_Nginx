@@ -16,10 +16,90 @@ function printResponse(response){
     }
 }
 
-function mapMarkers(response, mymap){
+function addMapMarkers(response, mymap){
     for (let i = 0; i < response.length; i++) {
-        const crime = response[i];
-        L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+        crime = response[i];
+        addCrimeTypeMarkers(crime, mymap);
+    }
+}
+
+/* */
+function addCrimeTypeMarkers(crime, mymap){
+    var myIcon;
+    switch (crime.crime_type) {
+        case 'Other theft':
+            myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Burglary':
+            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+        
+        case 'Theft from the person':
+            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+        
+        case 'Shoplifting':
+            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Robbery':
+            myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Possession of weapons':
+            myIcon = L.icon({iconUrl: 'src/type_weapons.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+             
+        case 'Violence and sexual offences':
+            myIcon = L.icon({iconUrl: 'src/type_assault.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Drugs':
+            myIcon = L.icon({iconUrl: 'src/type_drugs.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+            
+        case 'Vehicle crime':
+            myIcon = L.icon({iconUrl: 'src/type_vehicle_crime.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Bicycle theft':
+            myIcon = L.icon({iconUrl: 'src/type_bicycle_theft.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Criminal damage and arson':
+            myIcon = L.icon({iconUrl: 'src/type_criminal_damage_and_arson.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Anti-social behaviour':
+            myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+        
+        case 'Public order':
+            myIcon = L.icon({iconUrl: 'src/type_public_order.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        case 'Other crime':
+            myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+            L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
+
+        default:
+            L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(mymap);
+            break;
     }
 }
 
@@ -56,7 +136,6 @@ function openPage(pageName, elmnt) {
     elmnt.style.backgroundColor = "orange";
 }
 
-// Example Graph template from Chart.js
 function loadgraph() {
     var canvas = document.getElementById('myChart');
     var data = {
