@@ -1,21 +1,26 @@
-// This will execute when the page is ready.
+/* GLOBAL VARIABLES */
+// Creating intial map, zoom level and location.
+var MAP = L.map('mapid').setView([51.505, -0.09], 14);
+var LOCAL_URL = 'http://127.0.0.1:9000/db';
+var EXTERNAL_URL = 'http://51.141.10.255:9000/db';
+
+/* Calls all functions once page is ready. */
 $(function() {
-    
+
+    /* Retrieves geoghraphical data from database and adds them to initial map. */
     $.ajax({
-        // url: 'http://51.141.10.255:9000/db',
-        url: 'http://127.0.0.1:9000/db',
+        url: LOCAL_URL,
         method: 'GET',
         withCredentials: true
     }).done(function(response){
-        // printResponse(response);
-        addMapMarkers(response, mymap);
+        addMarkerTypesThenAddToMap(response, MAP);
     }).fail(function(error){
         console.error('Something bad happened.', error);
     });
-
+    
     // // Create Ajax request (XMLHTTPRequest)
     // test = $.ajax({
-    //     url: 'http://127.0.0.1:9000/login', // URL TO HOST
+    //     url: 'http://127.0.0.1:9000/login',
     //     method: 'POST', // METHOD
     //     // DATA TO SEND
     //     data: { 
@@ -30,9 +35,6 @@ $(function() {
     //     console.error('Something bad happened.', error);
     // });
 
-    // Creating intial map, zoom level and location.
-    var mymap = L.map('mapid').setView([51.505, -0.09], 14);
-
     // Add OpenStreetMap tile layer, so we have an actual map.
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -40,9 +42,15 @@ $(function() {
     minZoom: 11,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiYzE1MzE0MzU2IiwiYSI6ImNqb2ZtcmU5ZjA1anAzdnF6cWVtaWUxMG4ifQ.YoM7Ip2CPDpiIsect76L1Q'
-    }).addTo(mymap);
+    }).addTo(MAP);
 
-    // Open Home tab as default on pageload
+
+
+    //go too my current location WORK ON THESE LATER
+    // MAP.locate();
+    // MAP.locate({center: [53.46667, -2.23333]});
+
+    // Open home tab as default on pageload
     document.getElementById("defaultTab").click(); 
     
     // Visualises graphical data.
