@@ -147,6 +147,7 @@ function getGeoCoords(searchString){
         console.error('Something bad happened.', error);
     });
 }
+
 /* Centers map using coords. */
 function centerMapOnCoords(coords){
     MAP.panTo(coords.reverse());

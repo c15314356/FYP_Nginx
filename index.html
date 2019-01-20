@@ -36,10 +36,63 @@
                         <input id='searchLocation' class="form-control" type="text" placeholder="Enter Location">
                     </div>
                     <div class="text-center padding-5">
-                        <button type="submit" class="btn btn-primary" onclick="getGeoCoords($('#searchLocation').val());">Search</button>
+                        <button type="submit" class="btn btn-primary" onclick="getGeoCoords($('#searchLocation').val()); return false;">Search</button>
                     </div>
                 </div>
                 </form>
+                <!-- Filter Menu Form-->
+                <div class="padding-5" id="filterForm">
+                    <form>
+                    <div class="form-group">
+                        <label for="yearSelect"><font size="+1">Select Year</font></label>
+                        <select class="form-control form-control-sm" id="yearSelect">
+                        <option>2019</option>
+                        <option>2018</option>
+                        <option>2017</option>
+                        <option>2016</option>
+                        <option>2015</option>
+                        </select>
+                    </div>
+                    <label class="form-check-label" for="filterRadioButtons"><font size="+1">Date Range</font></label>
+                    <div class="padding-5">
+                        <div class="form-check form-check-inline col-sm-12" id="filterRadioButtons">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio1" value="option1" checked>
+                            <label class="form-check-label" for="filterRadio1">Last Month</label>
+                        </div>
+                        <div class="form-check form-check-inline col-sm-12">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio2" value="option2">
+                            <label class="form-check-label" for="filterRadio2">Last 3 Months</label>
+                        </div>
+                        <div class="form-check form-check-inline col-sm-12">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio3" value="option3">
+                            <label class="form-check-label" for="filterRadio3">Last 6 Months</label>
+                        </div>
+                        <div class="form-check form-check-inline col-sm-12">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio4" value="option4">
+                            <label class="form-check-label" for="filterRadio4">Entire Year</label>
+                        </div>
+                    </div>
+                    <label for="filterCrimeType"><font size="+1">Crime Type</font></label>
+                    <div class="form-group">
+                        <select multiple class="form-control" id="filterCrimeType">
+                            <option selected>All Crimes</option>
+                            <option>Violence &amp; Sexual Offences</option>
+                            <option>Public Order</option>
+                            <option>Drugs</option>
+                            <option>Possession of Weapons</option>
+                            <option>Crimal Damage &amp; arson</option>
+                            <option>Anti-social Behaviour</option>
+                            <option>Robbery</option>
+                            <option>Theft From Property (Burglary)</option>
+                            <option>Theft From Person</option>
+                            <option>Shoplifting</option>
+                            <option>Bicycle Theft</option>
+                            <option>Other Theft</option>
+                            <option>Other Crime</option>
+                        </select>
+                    </div>
+                    </form>
+                </div>
             </div>
             <!-- Map -->
             <div id="mapid"></div>
@@ -51,13 +104,13 @@
     </div>
 
     <div id="Alert" class="tabcontent col-sm-12">
-    <h3>Alert</h3>
-    <p>Get in touch, or swing by for a cup of coffee.</p>
+        <h3>Alert</h3>
+        <p>Get in touch, or swing by for a cup of coffee.</p>
     </div>
 
     <div id="About" class="tabcontent col-sm-12">
-    <h3>About</h3>
-    <p>Who we are and what we do.</p>
+        <h3>About</h3>
+        <p>Who we are and what we do.</p>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>

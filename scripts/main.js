@@ -45,10 +45,8 @@ $(function() {
     }).addTo(MAP);
 
 
-
-    //go too my current location WORK ON THESE LATER
+    //go to my current location WORK ON THESE LATER
     // MAP.locate();
-    // MAP.locate({center: [53.46667, -2.23333]});
 
     // Open home tab as default on pageload
     document.getElementById("defaultTab").click(); 
