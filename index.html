@@ -29,7 +29,7 @@
             <!-- Sidenav Menu -->
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <!-- Search Menu Form-->
+                <!-- Search Menu Form -->
                 <form>
                 <div class="form-group">
                     <div class="padding-5">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 </form>
-                <!-- Filter Menu Form-->
+                <!-- Filter Menu Form -->
                 <div class="padding-5" id="filterForm">
                     <form>
                     <div class="form-group">
@@ -102,15 +102,151 @@
     <div id="Graphs" class="tabcontent col-sm-12">
         <canvas id="myChart"></canvas>
     </div>
-
+    <!-- Alert tab information -->
     <div id="Alert" class="tabcontent col-sm-12">
-        <h3>Alert</h3>
-        <p>Get in touch, or swing by for a cup of coffee.</p>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <!-- Alert column one -->
+            <div id="crimeReportTip" class="col-sm-4 page-spacing">                 
+                <div class="text-center">
+                    <label><font size="+1"><b>Is it an emergency?</b></font></label>
+                </div>
+                <div>
+                    <label><font>
+                        Does it feel like the situation could get heated or violent very soon? 
+                        Is someone in immediate danger? Do you need support right away? If so, 
+                        please call <b>999</b> now.
+                    </font></label>
+                </div>
+                <form>
+                <div class="text-center">
+                    <label><font size="+1">Report Tip Form</font></label>
+                </div>
+                <div class="form-group">
+                    <label for="crimeReportTipTextArea">Please provide any relevant information here.</label>
+                    <textarea class="form-control" id="crimeReportTipTextArea" rows="5"></textarea>
+                </div>
+                <div class="text-center">
+                    <label><font size="+1">Personal Details</font></label>
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportTipFName">First Name</label>
+                    <input type="text" class="form-control" id="crimeReportTipFName" placeholder="First Name">
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportTipLName">Last Name</label>
+                    <input type="text" class="form-control" id="crimeReportTipLName" placeholder="Last Name">
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportTipEmail">Email</label>
+                    <input type="email" class="form-control" id="crimeReportTipEmail" placeholder="Email">
+                </div>
+                <div class="text-center">
+                    <label><font>To make a report anonymously, leave your personal details section empty. </font></label>
+                </div>
+                <div class="text-center padding-5">
+                    <button type="submit" class="btn btn-primary" onclick="return false;">Submit</button>
+                </div>
+                </form>
+            </div>
+            <!-- Alert column two -->
+            <div id="crimeReportDetails" class="col-sm-4 page-spacing">
+                <form>                
+                <div class="text-center">
+                    <label><font size="+1">Selected Crime Information</font></label>
+                </div>
+                <div class="text-center">
+                    <label><font>
+                        Please note, this content is dynamically generated based off of a selected crime. 
+                        To fill or reset the selection press the reset button below.
+                    </font></label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportID">Crime ID</label>
+                        <input type="text" class="form-control" id="crimeReportID" placeholder="Crime ID" disabled>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportDate">Date</label>
+                        <input type="text" class="form-control" id="crimeReportDate" placeholder="Date" disabled>
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportReportedBy">Reported By</label>
+                    <input type="text" class="form-control" id="crimeReportReportedBy" placeholder="Location" disabled>
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportCategory">Category</label>
+                    <input type="text" class="form-control" id="crimeReportCategory" placeholder="Category" disabled>
+                </div>
+                <div class="form-row form-group">
+                    <label for="crimeReportOutcome">Last Outcome</label>
+                    <input type="text" class="form-control" id="crimeReportOutcome" placeholder="Outcome" disabled>
+                </div>
+                <div class="text-center">
+                    <label><font size="+1">Location Details</font></label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportLong">Longitude</label>
+                        <input type="text" class="form-control" id="crimeReportLong" placeholder="Longitude" disabled>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportLat">Latitude</label>
+                        <input type="text" class="form-control" id="crimeReportLat" placeholder="Latitude" disabled>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportLSOACode">LSOA Code</label>
+                        <input type="text" class="form-control" id="crimeReportLSOACode" placeholder="LSOA Code" disabled>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="crimeReportLSOAName">LSOA Name</label>
+                        <input type="text" class="form-control" id="crimeReportLSOAName" placeholder="LSOA Name" disabled>
+                    </div>
+                </div>
+                <div class="text-center padding-5">
+                    <button type="submit" class="btn btn-primary" onclick="return false;">Reset Selection</button>
+                </div>
+                </form>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
     </div>
 
     <div id="About" class="tabcontent col-sm-12">
-        <h3>About</h3>
-        <p>Who we are and what we do.</p>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div id="aboutDetails" class="col-sm-6 page-spacing">
+                <h2 class="text-center">About</h3>
+                <p>
+                    Crime Explorer is a 'Final Year Project' built by Deividas Savickas (C15314356). This a prototype and as such is not 
+                    to be used for production purposes. You can contact me here: c15314356@mydit.ie
+                </p>
+                <h3 class="text-center">Project Functionality</h3>
+                <p>
+                    One of Crime Explorer's aims is to work on all major platforms, including desktops and phones. Crime Explorer allows users to view 
+                    the location of crimes in an area using markers, which use the longitudes and latitudes to map these crimes. 
+                    Users are also able to search the map to dynamically generate new markers in new areas all around the United Kingdom. As the crimes
+                    are mapped they are also graphed independently, you can see these results in the graph tab. Here you can view statistical 
+                    information and create custom graphs, as well as selecting different types of graphs and exporting the graphical data to a file.
+                    Users can also filter the crime data based on dates, crime types and location to allow even greater flexibility in filtering the data.
+                    Users can also select markers, to view specific crimes, which gives additional information such as the context of the crime and
+                    even the outcome. Users who have seen a crime can select it and report a tip to give additional information which may help in the
+                    investigation of ongoing cases they can do this by clicking the Alert/Report tab. The tab is automatically filled with the crime 
+                    information so users do not have to fill it out. As well as this, users can report a new crime by resetting the generated crime info 
+                    and filling out the form themselves.
+                </p>
+                <h3 class="text-center">Resources</h3>
+                <p>
+                    All resources used for the project are free and opensource, this includes the data used including sprites &amp; images.
+                    <br>They all be found in the following sites:
+                    <br>The markers can be found <a href="https://mapicons.mapsmarker.com/">here.</a>
+                    <br>The map data and API <a href="https://www.mapbox.com/">here.</a>
+                    <br>The crime data and API <a href="https://data.police.uk/docs/">here.</a>
+                </p>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
