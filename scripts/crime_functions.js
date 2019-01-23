@@ -246,7 +246,7 @@ function centerMapOnCoords(coords) {
 
 /* Creates a marker cluster group and adds it to the map. */
 function addMarkerCLusterGroupsToMap(response) {
-    var markerCluster = L.markerClusterGroup();
+    var markerCluster = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
         addMarkerTypes(crime, markerCluster);
