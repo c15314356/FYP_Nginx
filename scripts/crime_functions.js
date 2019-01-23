@@ -1,5 +1,5 @@
 /* Adds type markers to crimes based off of their type and then assigns them to map. */
-function addMarkerTypesThenAddToMap(response){
+function addMarkerTypesThenAddToMap(response) {
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
         addMarkerTypes(crime);
@@ -7,7 +7,7 @@ function addMarkerTypesThenAddToMap(response){
 }
 
 /* Adds locations to maps. */
-function addLocationToMap(crime, myIcon=null){
+function addLocationToMap(crime, myIcon=null) {
     if(myIcon == null) {
         L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(MAP);
     }
@@ -16,84 +16,175 @@ function addLocationToMap(crime, myIcon=null){
     }
 }
 
+/* Adds locations to maps but in cluster groups. */
+function addLocationToMapUsingCLusters(crime, markerCluster, myIcon=null) {
+    if(myIcon == null) {
+        var cluster = L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup();
+    }
+    else{
+       var cluster = L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup();
+    }
+    markerCluster.addLayer(cluster);
+}
+
 /* Adds special markers to crimes based on type. */
-function addMarkerTypes(crime){
+function addMarkerTypes(crime, markerCluster=null) {
     var myIcon;
-    // Switch case for crime types.
-    switch (crime.crime_type) {
-        case 'Other theft':
-            myIcon = L.icon({iconUrl: 'src/type_theft.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Burglary':
-            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-        
-        case 'Theft from the person':
-            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-        
-        case 'Shoplifting':
-            myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Robbery':
-            myIcon = L.icon({iconUrl: 'src/type_theft.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Possession of weapons':
-            myIcon = L.icon({iconUrl: 'src/type_weapons.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-             
-        case 'Violence and sexual offences':
-            myIcon = L.icon({iconUrl: 'src/type_assault.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Drugs':
-            myIcon = L.icon({iconUrl: 'src/type_drugs.png'});
-            addLocationToMap(crime, myIcon);
-            break;
+    // Switch case for crime types which adds location to maps using markers.
+    if(markerCluster == null) {
+        switch (crime.crime_type) {
+            case 'Other theft':
+                myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Burglary':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMap(crime, myIcon);
+                break;
             
-        case 'Vehicle crime':
-            myIcon = L.icon({iconUrl: 'src/type_vehicle_crime.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Bicycle theft':
-            myIcon = L.icon({iconUrl: 'src/type_bicycle_theft.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Criminal damage and arson':
-            myIcon = L.icon({iconUrl: 'src/type_criminal_damage_and_arson.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Anti-social behaviour':
-            myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-        
-        case 'Public order':
-            myIcon = L.icon({iconUrl: 'src/type_public_order.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        case 'Other crime':
-            myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
-            addLocationToMap(crime, myIcon);
-            break;
-
-        default:
-            addLocationToMap(crime)
-            break;
+            case 'Theft from the person':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+            
+            case 'Shoplifting':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Robbery':
+                myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Possession of weapons':
+                myIcon = L.icon({iconUrl: 'src/type_weapons.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+                 
+            case 'Violence and sexual offences':
+                myIcon = L.icon({iconUrl: 'src/type_assault.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Drugs':
+                myIcon = L.icon({iconUrl: 'src/type_drugs.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+                
+            case 'Vehicle crime':
+                myIcon = L.icon({iconUrl: 'src/type_vehicle_crime.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Bicycle theft':
+                myIcon = L.icon({iconUrl: 'src/type_bicycle_theft.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Criminal damage and arson':
+                myIcon = L.icon({iconUrl: 'src/type_criminal_damage_and_arson.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Anti-social behaviour':
+                myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+            
+            case 'Public order':
+                myIcon = L.icon({iconUrl: 'src/type_public_order.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            case 'Other crime':
+                myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+                addLocationToMap(crime, myIcon);
+                break;
+    
+            default:
+                addLocationToMap(crime)
+                break;
+        }
+    }
+    // Switch case for crime types using marker clusters which adds location to map.
+    else {
+        switch (crime.crime_type) {
+            case 'Other theft':
+                myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Burglary':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+            
+            case 'Theft from the person':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+            
+            case 'Shoplifting':
+                myIcon = L.icon({iconUrl: 'src/type_robbery.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Robbery':
+                myIcon = L.icon({iconUrl: 'src/type_theft.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Possession of weapons':
+                myIcon = L.icon({iconUrl: 'src/type_weapons.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+                    
+            case 'Violence and sexual offences':
+                myIcon = L.icon({iconUrl: 'src/type_assault.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Drugs':
+                myIcon = L.icon({iconUrl: 'src/type_drugs.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+                
+            case 'Vehicle crime':
+                myIcon = L.icon({iconUrl: 'src/type_vehicle_crime.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Bicycle theft':
+                myIcon = L.icon({iconUrl: 'src/type_bicycle_theft.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Criminal damage and arson':
+                myIcon = L.icon({iconUrl: 'src/type_criminal_damage_and_arson.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Anti-social behaviour':
+                myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+            
+            case 'Public order':
+                myIcon = L.icon({iconUrl: 'src/type_public_order.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            case 'Other crime':
+                myIcon = L.icon({iconUrl: 'src/type_anti_social.png'});
+                addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                break;
+    
+            default:
+                addLocationToMapUsingCLusters(crime)
+                break;
+        }
     }
 }
 
@@ -132,7 +223,7 @@ function openPage(pageName, elmnt) {
 }
 
 /* Creates and ajax request to the mapbox geocoding API t0 retreive approximation of coords based on search. */
-function getGeoCoords(searchString){
+function getGeoCoords(searchString) {
     console.log(searchString);
     var accessToken = 'pk.eyJ1IjoiYzE1MzE0MzU2IiwiYSI6ImNqb2ZtcmU5ZjA1anAzdnF6cWVtaWUxMG4ifQ.YoM7Ip2CPDpiIsect76L1Q';
     $.ajax({
@@ -149,8 +240,18 @@ function getGeoCoords(searchString){
 }
 
 /* Centers map using coords. */
-function centerMapOnCoords(coords){
+function centerMapOnCoords(coords) {
     MAP.panTo(coords.reverse());
+}
+
+/* Creates a marker cluster group and adds it to the map. */
+function addMarkerCLusterGroupsToMap(response) {
+    var markerCluster = L.markerClusterGroup();
+    for (let i = 0; i < response.length; i++) {
+        crime = response[i];
+        addMarkerTypes(crime, markerCluster);
+    }
+    MAP.addLayer(markerCluster);
 }
 
 /* All graph generation methods. */

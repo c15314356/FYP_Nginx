@@ -13,9 +13,10 @@ $(function() {
         method: 'GET',
         withCredentials: true
     }).done(function(response){
-        addMarkerTypesThenAddToMap(response, MAP);
+        // addMarkerTypesThenAddToMap(response);
+        addMarkerCLusterGroupsToMap(response);
     }).fail(function(error){
-        console.error('Something bad happened.', error);
+        console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
     
     // // Create Ajax request (XMLHTTPRequest)
@@ -43,7 +44,6 @@ $(function() {
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiYzE1MzE0MzU2IiwiYSI6ImNqb2ZtcmU5ZjA1anAzdnF6cWVtaWUxMG4ifQ.YoM7Ip2CPDpiIsect76L1Q'
     }).addTo(MAP);
-
 
     //go to my current location WORK ON THESE LATER
     // MAP.locate();
