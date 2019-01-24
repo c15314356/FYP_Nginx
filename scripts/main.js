@@ -13,6 +13,7 @@ $(function() {
         method: 'GET',
         withCredentials: true
     }).done(function(response){
+        console.log(response);
         // addMarkerTypesThenAddToMap(response);
         addMarkerCLusterGroupsToMap(response);
     }).fail(function(error){
