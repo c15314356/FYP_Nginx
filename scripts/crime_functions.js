@@ -9,20 +9,20 @@ function addMarkerTypesThenAddToMap(response) {
 /* Adds locations to maps. */
 function addLocationToMap(crime, myIcon=null) {
     if(myIcon == null) {
-        L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
     }
     else{
-        L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
     }
 }
 
 /* Adds locations to maps but in cluster groups. */
 function addLocationToMapUsingCLusters(crime, markerCluster, myIcon=null) {
     if(myIcon == null) {
-        var cluster = L.marker([crime.latitude, crime.longitude]).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup();
+        var cluster = L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
     }
     else{
-       var cluster = L.marker([crime.latitude, crime.longitude],{icon: myIcon}).bindPopup(crime.location_details + '<br>' + crime.last_outcome).openPopup();
+       var cluster = L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
     }
     markerCluster.addLayer(cluster);
 }
@@ -32,7 +32,7 @@ function addMarkerTypes(crime, markerCluster=null) {
     var myIcon;
     // Switch case for crime types which adds location to maps using markers.
     if(markerCluster == null) {
-        switch (crime.crime_type) {
+        switch (crime.properties.crime_type) {
             case 'Other theft':
                 myIcon = L.icon({iconUrl: 'src/type_theft.png'});
                 addLocationToMap(crime, myIcon);
@@ -110,7 +110,7 @@ function addMarkerTypes(crime, markerCluster=null) {
     }
     // Switch case for crime types using marker clusters which adds location to map.
     else {
-        switch (crime.crime_type) {
+        switch (crime.properties.crime_type) {
             case 'Other theft':
                 myIcon = L.icon({iconUrl: 'src/type_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
