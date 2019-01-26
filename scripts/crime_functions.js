@@ -27,6 +27,32 @@ function addLocationToMapUsingCLusters(crime, markerCluster, myIcon=null) {
     markerCluster.addLayer(cluster);
 }
 
+function createAndDisplayRegions(response) {
+    for (let i = 0; i < response.length; i++) {
+        region = response[i];
+        createPolygon(region);
+    }
+}
+
+function createAndDisplayRegions2(response) {
+    var myStyle = {
+        "color": "#ff7800",
+        "weight": 5,
+        "opacity": 0.65
+    };
+    for (let i = 0; i < response.length; i++) {
+        region = response[i];
+        L.geoJSON(region.geometry.coordinates, {
+            style: myStyle
+        }).addTo(MAP);
+    }
+}
+
+function createPolygon(region) {
+    // Polygons used to spilt Map.
+    L.polygon(region.geometry.coordinates).addTo(MAP);
+}
+
 /* Adds special markers to crimes based on type. */
 function addMarkerTypes(crime, markerCluster=null) {
     var myIcon;

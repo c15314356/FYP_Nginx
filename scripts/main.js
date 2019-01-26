@@ -1,21 +1,34 @@
 /* GLOBAL VARIABLES */
 // Creating intial map, zoom level and location.
 var MAP = L.map('mapid').setView([51.505, -0.09], 14);
-var LOCAL_URL = 'http://127.0.0.1:9000/db';
-var EXTERNAL_URL = 'http://51.141.10.255:9000/db';
+LOCAL_URL = 'http://127.0.0.1:9000';
+EXTERNAL_URL = 'http://51.141.10.255:9000';
+CURRENT_URL = LOCAL_URL;
 
 /* Calls all functions once page is ready. */
 $(function() {
 
-    /* Retrieves geoghraphical data from database and adds them to initial map. */
+    // /* Retrieves geoghraphical data from database and adds them to initial map. */
+    // $.ajax({
+    //     url: CURRENT_URL + '/db',
+    //     method: 'GET',
+    //     withCredentials: true
+    // }).done(function(response){
+    //     console.log(response);
+    //     // addMarkerTypesThenAddToMap(response);
+    //     addMarkerCLusterGroupsToMap(response);
+    // }).fail(function(error){
+    //     console.error('Problem occurred when trying to connect to Node Service API.', error);
+    // });
+    
+    /* Retrieves regional coordinate data from database and creates regions based on them. */
     $.ajax({
-        url: LOCAL_URL,
+        url: CURRENT_URL +'/regions',
         method: 'GET',
         withCredentials: true
     }).done(function(response){
         console.log(response);
-        // addMarkerTypesThenAddToMap(response);
-        addMarkerCLusterGroupsToMap(response);
+        // createAndDisplayRegions2(response);
     }).fail(function(error){
         console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
@@ -48,6 +61,38 @@ $(function() {
 
     //go to my current location WORK ON THESE LATER
     // MAP.locate();
+
+    var geojsonFeature = {
+        "type": "Feature",
+        "properties": {
+            "name": "Coors Field",
+            "amenity": "Baseball Stadium",
+            "popupContent": "This is where the Rockies play!"
+        },
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [53.8913912806, -5.72387693339],
+                [54.438102791, -8.6242675385],
+                [53.943154694, -7.22900388672],
+                [53.8913912806, -5.72387693339],
+        ]
+        }
+    };
+
+    // Geojson.
+    L.geoJSON(geojsonFeature, {
+        // style: myStyle
+    }).addTo(MAP);
+    console.log('done');
+
+    // Map events & functions.
+    var popup = L.popup();
+    function onMapClick(e) {
+        popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(MAP);
+    }
+
+    MAP.on('click', onMapClick);
 
     // Open home tab as default on pageload
     document.getElementById("defaultTab").click(); 
