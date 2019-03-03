@@ -9,20 +9,32 @@ function addMarkerTypesThenAddToMap(response) {
 /* Adds locations to maps. */
 function addLocationToMap(crime, myIcon=null) {
     if(myIcon == null) {
-        L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse()).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        }).addTo(MAP);
     }
     else{
-        L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        }).addTo(MAP);
     }
 }
 
 /* Adds locations to maps but in cluster groups. */
 function addLocationToMapUsingCLusters(crime, markerCluster, myIcon=null) {
     if(myIcon == null) {
-        var cluster = L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
+        var cluster = L.marker(crime.location.coordinates.reverse()).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        });
     }
     else{
-       var cluster = L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
+        var cluster = L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        });
     }
     markerCluster.addLayer(cluster);
 }
@@ -31,14 +43,13 @@ function createAndDisplayRegions(response) {
     for (let i = 0; i < response.length; i++) {
         region = response[i];
         createPolygon(region);
-        console.log(i);
     }
 }
 
 function createPolygon(region) {
     // Polygons used to spilt Map.
     L.polygon(region.geometry.coordinates).addEventListener('click', function(){
-        console.log(region.properties);
+        loadRegion(region.properties.name);
     }).addTo(MAP);
 }
 
@@ -267,6 +278,39 @@ function addMarkerCLusterGroupsToMap(response) {
         addMarkerTypes(crime, markerCluster);
     }
     MAP.addLayer(markerCluster);
+}
+
+function loadRegion(region_name) {
+    /* Retrieves geoghraphical data from database and adds them to initial map. */
+    $.ajax({
+        url: CURRENT_URL + '/db',
+        method: 'GET',
+        data:{
+            region_name : region_name,
+            crime_date : '2017-11'
+        },
+        withCredentials: true
+    }).done(function(response){
+        console.log(response);
+        // addMarkerTypesThenAddToMap(response);
+        addMarkerCLusterGroupsToMap(response);
+    }).fail(function(error){
+        console.error('Problem occurred when trying to connect to Node Service API.', error);
+    });
+}
+
+function getCrimeInfo(crime_id) {
+    /* Retrieves crime information from UK police API */
+    $.ajax({
+        url:'https://data.police.uk/api/outcomes-for-crime/' + crime_id,
+        method: 'GET',
+        withCredentials: true
+    }).done(function(response){
+        $('#crimeInfoCategory').text(response.crime.category);
+        console.log(response);
+    }).fail(function(error){
+        console.error('Problem occurred when trying to connect to Polic Data UK API.', error);
+    });
 }
 
 /* All graph generation methods. */

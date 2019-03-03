@@ -254,6 +254,32 @@
             <div class="col-sm-3"></div>
         </div>
     </div>
+
+    <div id='crimeInfoModal' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crime Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body col-sm-12" id="crimeInfoBody">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Crime Category</td>
+                                <td id="crimeInfoCategory"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script src="bootstrap/js/bootstrap.bundle.js"></script>

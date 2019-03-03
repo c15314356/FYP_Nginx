@@ -7,20 +7,6 @@ CURRENT_URL = LOCAL_URL;
 
 /* Calls all functions once page is ready. */
 $(function() {
-
-    /* Retrieves geoghraphical data from database and adds them to initial map. */
-    $.ajax({
-        url: CURRENT_URL + '/db',
-        method: 'GET',
-        withCredentials: true
-    }).done(function(response){
-        console.log(response);
-        // addMarkerTypesThenAddToMap(response);
-        addMarkerCLusterGroupsToMap(response);
-    }).fail(function(error){
-        console.error('Problem occurred when trying to connect to Node Service API.', error);
-    });
-    
     /* Retrieves regional coordinate data from database and creates regions based on them. */
     $.ajax({
         url: CURRENT_URL +'/regions',
