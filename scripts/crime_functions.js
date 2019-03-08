@@ -280,8 +280,10 @@ function addMarkerCLusterGroupsToMap(response) {
     MAP.addLayer(markerCluster);
 }
 
+
 /* Retrieves geoghraphical data from database and adds them to initial map. */
 function loadRegion(region_name) {
+
     $.ajax({
         url: CURRENT_URL + '/db',
         method: 'GET',
@@ -298,6 +300,7 @@ function loadRegion(region_name) {
         console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
 }
+
 
 /* Retrieves crime information from UK police API */
 function getCrimeInfo(crime_id) {
