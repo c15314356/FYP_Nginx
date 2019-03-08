@@ -1,26 +1,12 @@
 /* GLOBAL VARIABLES */
 // Creating intial map, zoom level and location.
-var MAP = L.map('mapid').setView([51.505, -0.09], 14);
+var MAP = L.map('mapid').setView([52.686373, -1.362305], 8);
 LOCAL_URL = 'http://127.0.0.1:9000';
 EXTERNAL_URL = 'http://51.141.10.255:9000';
 CURRENT_URL = LOCAL_URL;
 
 /* Calls all functions once page is ready. */
 $(function() {
-
-    /* Retrieves geoghraphical data from database and adds them to initial map. */
-    $.ajax({
-        url: CURRENT_URL + '/db',
-        method: 'GET',
-        withCredentials: true
-    }).done(function(response){
-        console.log(response);
-        // addMarkerTypesThenAddToMap(response);
-        addMarkerCLusterGroupsToMap(response);
-    }).fail(function(error){
-        console.error('Problem occurred when trying to connect to Node Service API.', error);
-    });
-    
     /* Retrieves regional coordinate data from database and creates regions based on them. */
     $.ajax({
         url: CURRENT_URL +'/regions',

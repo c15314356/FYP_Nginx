@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="leaflet/leaflet.css">
     <link rel="stylesheet" href="style/style.css">
 
@@ -121,7 +122,7 @@
                     <label><font>
                         Does it feel like the situation could get heated or violent very soon? 
                         Is someone in immediate danger? Do you need support right away? If so, 
-                        please call <b>999</b> now.
+                        please call <b>112</b> now.
                     </font></label>
                 </div>
                 <form>
@@ -178,8 +179,8 @@
                     </div>
                 </div>
                 <div class="form-row form-group">
-                    <label for="crimeReportReportedBy">Reported By</label>
-                    <input type="text" class="form-control" id="crimeReportReportedBy" placeholder="Location" disabled>
+                    <label for="crimeReportStreet">Reported By</label>
+                    <input type="text" class="form-control" id="crimeReportStreet" placeholder="Location" disabled>
                 </div>
                 <div class="form-row form-group">
                     <label for="crimeReportCategory">Category</label>
@@ -252,6 +253,76 @@
                 </p>
             </div>
             <div class="col-sm-3"></div>
+        </div>
+    </div>
+
+    <div id='crimeInfoModal' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crime Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body col-sm-12" id="crimeInfoBody">
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoID">Crime ID</label>
+                            <span type="text" class="form-control" id="crimeInfoID">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoDate">Date</label>
+                            <span type="text" class="form-control" id="crimeInfoDate">
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <label for="crimeInfoCategory">Category</label>
+                        <span type="text" class="form-control" id="crimeInfoCategory">
+                    </div>
+                    <div class="text-center">
+                        <label><font size="+1">Location Details</font></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoLong">Longitude</label>
+                            <span type="text" class="form-control" id="crimeInfoLong">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoLat">Latitude</label>
+                            <span type="text" class="form-control" id="crimeInfoLat">
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <label for="crimeInfoStreet">Street</label>
+                        <span type="text" class="form-control" id="crimeInfoStreet">
+                    </div>
+                    <div class="text-center"> 
+                        <label><font size="+1">Investigation Details</font></label>
+                    </div>
+                    <div id="crimeInfoOutcomes">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crimeInfoTableBody"></tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="modalSpinner" class="container">
+                        <span id="modalSpinnerText">Fetching Data.... &nbsp; &nbsp;</span>
+                        <span id="modalSpinnerIcon" class="spinner-border text-primary"></span>
+                    </div>
+                    <div id="modalSpinnerFail" class="container text-warning">
+                        <span id="modalSpinnerFailText">This crime currently has no additional information.</span>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
