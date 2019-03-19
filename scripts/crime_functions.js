@@ -280,8 +280,10 @@ function addMarkerCLusterGroupsToMap(response) {
     MAP.addLayer(markerCluster);
 }
 
+
 /* Retrieves geoghraphical data from database and adds them to initial map. */
 function loadRegion(region_name) {
+
     $.ajax({
         url: CURRENT_URL + '/db',
         method: 'GET',
@@ -358,8 +360,6 @@ function setCrimeAlertInfo(response){
     $('#crimeReportStreet').val(response.crime.location.street.name);
     $('#crimeReportDate').val(response.crime.month);
     $('#crimeReportOutcome').val(response.outcomes[response.outcomes.length-1].category.name);
-
-
 }
 
 function createGraphicalDataTotals(response) {
