@@ -9,20 +9,32 @@ function addMarkerTypesThenAddToMap(response) {
 /* Adds locations to maps. */
 function addLocationToMap(crime, myIcon=null) {
     if(myIcon == null) {
-        L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse()).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        }).addTo(MAP);
     }
     else{
-        L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup().addTo(MAP);
+        L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        }).addTo(MAP);
     }
 }
 
 /* Adds locations to maps but in cluster groups. */
 function addLocationToMapUsingCLusters(crime, markerCluster, myIcon=null) {
     if(myIcon == null) {
-        var cluster = L.marker(crime.location.coordinates.reverse()).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
+        var cluster = L.marker(crime.location.coordinates.reverse()).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        });
     }
     else{
-       var cluster = L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).bindPopup('Nope' + '<br>' + 'Nope').openPopup();
+        var cluster = L.marker(crime.location.coordinates.reverse(), {icon: myIcon}).addEventListener('click', function() {
+            getCrimeInfo(crime.properties.crime_id);
+            $('#crimeInfoModal').modal('show');
+        });
     }
     markerCluster.addLayer(cluster);
 }
@@ -31,14 +43,13 @@ function createAndDisplayRegions(response) {
     for (let i = 0; i < response.length; i++) {
         region = response[i];
         createPolygon(region);
-        console.log(i);
     }
 }
 
 function createPolygon(region) {
     // Polygons used to spilt Map.
     L.polygon(region.geometry.coordinates).addEventListener('click', function(){
-        console.log(region.properties);
+        loadRegion(region.properties.name);
     }).addTo(MAP);
 }
 
@@ -269,33 +280,301 @@ function addMarkerCLusterGroupsToMap(response) {
     MAP.addLayer(markerCluster);
 }
 
-/* All graph generation methods. */
-function loadgraph() {
-    var canvas = document.getElementById('myChart');
+/* Retrieves geoghraphical data from database and adds them to initial map. */
+function loadRegion(region_name) {
+    $.ajax({
+        url: CURRENT_URL + '/db',
+        method: 'GET',
+        data:{
+            region_name : region_name,
+            crime_date : '2017-11'
+        },
+        withCredentials: true
+    }).done(function(response){
+        console.log(response);
+        // addMarkerTypesThenAddToMap(response);
+        addMarkerCLusterGroupsToMap(response);
+        // Visualises graphical data.
+        loadgraphs(response, region_name);
+    }).fail(function(error){
+        console.error('Problem occurred when trying to connect to Node Service API.', error);
+    });
+}
+
+/* Retrieves crime information from UK police API */
+function getCrimeInfo(crime_id) {
+    $.ajax({
+        url:'https://data.police.uk/api/outcomes-for-crime/' + crime_id,
+        method: 'GET',
+        withCredentials: true,
+        beforeSend: function() {
+            $("#modalSpinner").show();
+            $('#crimeInfoBody').hide();
+            $("#modalSpinnerFail").hide();
+        }
+    }).done(function(response) {
+        $("#crimeInfoBody").show();
+        $('#modalSpinner').hide();
+        console.log(response);
+        setCrimeInfoModal(response);
+        setCrimeAlertInfo(response);
+        console.log(response.crime.context);
+    }).fail(function(error) {
+        console.error('Problem occurred when trying to connect to Polic Data UK API.', error);
+        $("#modalSpinnerFail").show();
+        $('#modalSpinner').hide();
+    });
+}
+
+function setCrimeInfoModal(response){
+    $("#crimeInfoTableBody").empty();
+    $('#crimeInfoCategory').text(response.crime.category);
+    $('#crimeInfoID').text(response.crime.id);
+    $('#crimeInfoLat').text(response.crime.location.latitude);
+    $('#crimeInfoLong').text(response.crime.location.longitude);
+    $('#crimeInfoStreet').text(response.crime.location.street.name);
+    $('#crimeInfoDate').text(response.crime.month);
+
+    response.outcomes.forEach(function(item) {
+        console.log(item.category.name);
+        var $tableRowDate = jQuery('<tr/>', {
+        }).appendTo('#crimeInfoTableBody');
+
+        jQuery('<td/>', {
+            text: item.date
+        }).appendTo($tableRowDate);
+
+        jQuery('<td/>', {
+            text: item.category.name
+        }).appendTo($tableRowDate);
+    });
+}
+
+function setCrimeAlertInfo(response){
+    $('#crimeReportCategory').val(response.crime.category);
+    $('#crimeReportID').val(response.crime.id);
+    $('#crimeReportLat').val(response.crime.location.latitude);
+    $('#crimeReportLong').val(response.crime.location.longitude);
+    $('#crimeReportStreet').val(response.crime.location.street.name);
+    $('#crimeReportDate').val(response.crime.month);
+    $('#crimeReportOutcome').val(response.outcomes[response.outcomes.length-1].category.name);
+
+
+}
+
+function createGraphicalDataTotals(response) {
+    var other_theft = 0; 
+    var burglary = 0; 
+    var theft_from_the_person = 0; 
+    var shoplifting = 0; 
+    var robbery = 0; 
+    var possession_of_weapons = 0; 
+    var violence_and_sexual_offences = 0; 
+    var drugs = 0; 
+    var vehicle_crime = 0; 
+    var bicycle_theft = 0; 
+    var criminal_damage_and_arson = 0; 
+    var antisocial_behaviour = 0; 
+    var public_order = 0; 
+    var other_crime = 0; 
+
+    response.forEach(function(item) {
+        switch (item.properties.crime_type) {
+            case 'Other theft':
+                other_theft++;
+                break;
+    
+            case 'Burglary':
+                burglary++;
+                break;
+           
+            case 'Theft from the person':
+                theft_from_the_person++; 
+                break;
+            
+            case 'Shoplifting':
+                shoplifting++;
+                break;
+    
+            case 'Robbery':
+                robbery++;
+                break;
+    
+            case 'Possession of weapons':
+                possession_of_weapons++;
+                break;
+                    
+            case 'Violence and sexual offences':
+                violence_and_sexual_offences++;
+                break;
+    
+            case 'Drugs':
+                drugs++;
+                break;
+                
+            case 'Vehicle crime':
+                vehicle_crime++;
+                break;
+    
+            case 'Bicycle theft':
+                bicycle_theft++;
+                break;
+    
+            case 'Criminal damage and arson':
+                criminal_damage_and_arson++;
+                break;
+    
+            case 'Anti-social behaviour':
+                antisocial_behaviour++;
+                break;
+            
+            case 'Public order':
+                public_order++;
+                break;
+    
+            case 'Other crime':
+                other_crime++;
+                break;
+    
+            default:
+                other_crime++;
+                console.log(item.properties.crime_type);
+                break;
+        }
+    });
+    return [public_order, drugs, possession_of_weapons, 
+        violence_and_sexual_offences, criminal_damage_and_arson, 
+        antisocial_behaviour, robbery, burglary,
+        theft_from_the_person, shoplifting, bicycle_theft, 
+        vehicle_crime, other_theft, other_crime]
+}
+
+function generatePieChart(total_values, region_name, graphColors) {
+    var pieChartCanvas = document.getElementById('generatedPieChart' + GRAPHNUMBER);
     var data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        labels: [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
+        "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
+        "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"],
         datasets: [
             {
-                label: "My First dataset",
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                borderWidth: 2,
-                hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                hoverBorderColor: "rgba(255,99,132,1)",
-                data: [65, 59, 30, 81, 56, 55, 40],
+                label: "Breakdown of Crime in " + region_name + " Region",
+                data: total_values,
+                backgroundColor: graphColors
             }
         ]
     };
+
     var option = {
         animation: {
             duration:5000
-    }
+        },
+        legend: {
+            display: false
+         },
     };
 
+    var myPieChart = new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: data,
+        options: option
+    });
+}
 
-    var myBarChart = Chart.Bar(canvas, {
+function generateBarChart(total_values, region_name, graphColors, hoverGraphColors) {
+
+    var barChartCanvas = document.getElementById('generatedBarChart' + GRAPHNUMBER);
+
+    var data = {
+        labels: [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
+        "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
+        "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"],
+        datasets: [
+            {
+                label: "Breakdown of Crime in " + region_name + " Region",
+                backgroundColor: graphColors,
+                borderColor: "rgba(192,192,192,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: hoverGraphColors,
+                hoverBorderColor: "rgba(192,192,192,1)",
+                data: total_values,
+            }
+        ]
+    };
+
+    var option = {
+        animation: {
+            duration:5000
+        }
+    };
+
+    var myBarChart = Chart.Bar(barChartCanvas, {
         data:data,
         options:option
     });
+}
+
+function createRandomColor() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    var opacity = 0.5;
+    return "rgba(" + r + "," + g + "," + b + "," + opacity + ")";
+}
+
+function changeColorOpacity(colors) {
+    var hoverGraphColors = [];
+    var opacity = 0.9;
+    colors.forEach(function(item) {
+        item = item.slice(0, -4);
+        item = item + opacity + ")";
+        hoverGraphColors.push(item);
+    });
+    return hoverGraphColors
+}
+
+/* All graph generation methods. */
+function loadgraphs(response, region_name) {
+    var graphColors = [];
+    var hoverGraphColors = [];
+    total_values = createGraphicalDataTotals(response);
+    // Generate random colours for each crime type
+    for(var i in total_values) {
+        graphColors.push(createRandomColor());
+    }
+    // Generate the hover colors by increasing intensity of color
+    hoverGraphColors = changeColorOpacity(graphColors);
+
+    var $graphBody = jQuery('<div/>', {
+    }).appendTo('#graphCanvas');
+
+    var $chartRow = jQuery('<div/>', {
+        class: "row"
+    }).appendTo($graphBody);
+
+    var $chartDivLeft = jQuery('<div/>', {
+        id: "generatedBarChartDiv" + GRAPHNUMBER,
+        class: "col-sm-6"
+    }).appendTo($chartRow);
+
+    var $chartDivRight = jQuery('<div/>', {
+        id: "generatedPieChartDiv" + GRAPHNUMBER,
+        class: "col-sm-6"
+    }).appendTo($chartRow);
+
+    jQuery('<canvas/>', {
+        id: "generatedBarChart" + GRAPHNUMBER
+    }).appendTo($chartDivLeft);
+
+    jQuery('<canvas/>', {
+        id: "generatedPieChart" + GRAPHNUMBER
+    }).appendTo($chartDivRight);
+
+    generatePieChart(total_values, region_name, graphColors);
+    generateBarChart(total_values, region_name, graphColors, hoverGraphColors);
+
+    GRAPHNUMBER++;
+    // Clear graph
+    // const context = canvas.getContext('2d');
+    // context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
