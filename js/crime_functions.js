@@ -48,7 +48,7 @@ function createAndDisplayRegions(response) {
 
 function createPolygon(region) {
     // Polygons used to spilt Map.
-    L.polygon(region.geometry.coordinates).addEventListener('click', function(){
+    L.polygon(region.geometry.coordinates, {opacity: 0.4, fillOpacity: 0.0, color: "orange", weight: 2}).addEventListener('click', function(){
         loadRegion(region.properties.name);
         $("#graphTabID").prop("disabled", false);
     }).addTo(MAP);
