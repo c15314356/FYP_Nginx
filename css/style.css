@@ -144,3 +144,10 @@ display: none;
 .margin-right-0 {
     margin-right: 0px ;
 }
+
+#tutorialOneAlert {
+    position: absolute;
+    right: 0;
+    z-index:9999; 
+}
+

@@ -16,9 +16,13 @@ $(function() {
     }).done(function(response){
         console.log(response);
         createAndDisplayRegions(response);
+        showTutorialAlert();
     }).fail(function(error){
         console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
+
+    // Open home tab as default on pageload
+    document.getElementById("defaultTab").click(); 
     
     // // Create Ajax request (XMLHTTPRequest)
     // test = $.ajax({
@@ -61,7 +65,4 @@ $(function() {
     //     popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(MAP);
     // }
     // MAP.on('click', onMapClick);
-
-    // Open home tab as default on pageload
-    document.getElementById("defaultTab").click(); 
 });
