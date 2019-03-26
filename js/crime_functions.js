@@ -48,10 +48,12 @@ function createAndDisplayRegions(response) {
 
 function createPolygon(region) {
     // Polygons used to spilt Map.
-    L.polygon(region.geometry.coordinates, {opacity: 0.4, fillOpacity: 0.0, color: "orange", weight: 2}).addEventListener('click', function(){
+    var regionPolygon = L.polygon(region.geometry.coordinates, {opacity: 0.4, fillOpacity: 0.0, color: "orange", weight: 2}).addEventListener('click', function(){
         loadRegion(region.properties.name);
         $("#graphTabID").prop("disabled", false);
-    }).addTo(MAP);
+        regionPolygon.removeEventListener('click');
+    })
+    MAP.addLayer(regionPolygon);
 }
 
 /* Adds special markers to crimes based on type. */
