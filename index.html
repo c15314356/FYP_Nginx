@@ -28,7 +28,7 @@
         <div class="col-sm-3">
             <button class="tablink menuTabs" onclick="openPage('About', this)">About</button>
             <button class="tablink menuTabs" onclick="openPage('Alert', this)">Alert</button>
-            <button class="tablink menuTabs" onclick="openPage('Graphs', this)">Graphs</button>
+            <button id="graphTabID" class="tablink menuTabs"  onclick="openPage('Graphs', this)" disabled>Graphs</button>
         </div>
     </div> 
     
@@ -99,6 +99,10 @@
                             <option>Other Theft</option>
                             <option>Other Crime</option>
                         </select>
+                    </div>
+                    <div class="custom-control custom-switch col-sm-12" id="filterHeatMap">
+                        <input type="checkbox" class="custom-control-input" id="heatMapOption">
+                        <label class="custom-control-label" for="heatMapOption">Toggle Heatmap</label>
                     </div>
                     </form>
                 </div>
@@ -332,6 +336,7 @@
     <script src="js/leaflet.js"></script>
     <script src="js/main.js"></script>
     <script src="js/font.awesome.js"></script>
+    <script src="js/leaflet-heat.js"></script>
     <script src="js/crime_functions.js"></script>
 
     <!-- Modify to local -->

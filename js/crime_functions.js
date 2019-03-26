@@ -50,6 +50,7 @@ function createPolygon(region) {
     // Polygons used to spilt Map.
     L.polygon(region.geometry.coordinates).addEventListener('click', function(){
         loadRegion(region.properties.name);
+        $("#graphTabID").prop("disabled", false);
     }).addTo(MAP);
 }
 
@@ -294,11 +295,25 @@ function loadRegion(region_name) {
         console.log(response);
         // addMarkerTypesThenAddToMap(response);
         addMarkerCLusterGroupsToMap(response);
+        generateHeatMap(response);
         // Visualises graphical data.
         loadgraphs(response, region_name);
     }).fail(function(error){
         console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
+}
+
+function generateHeatMap(response) {
+    console.log("generateHeatMap");
+    var coordinates = [];
+
+    for (let i = 0; i < response.length; i++) {
+        crime = response[i];
+        coordinates.push([crime.location.coordinates[0], crime.location.coordinates[1], 0.5]);
+    }
+    console.log(coordinates);
+    var heatLayer = L.heatLayer(coordinates, {radius: 25});
+    MAP.addLayer(heatLayer);
 }
 
 function showTutorialAlert() {
@@ -455,12 +470,10 @@ function createGraphicalDataTotals(response) {
         vehicle_crime, other_theft, other_crime]
 }
 
-function generatePieChart(total_values, region_name, graphColors) {
+function generatePieChart(total_values, region_name, graphColors, labels) {
     var pieChartCanvas = document.getElementById('generatedPieChart' + GRAPHNUMBER);
     var data = {
-        labels: [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
-        "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
-        "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"],
+        labels: labels,
         datasets: [
             {
                 label: "Breakdown of Crime in " + region_name + " Region",
@@ -474,9 +487,15 @@ function generatePieChart(total_values, region_name, graphColors) {
         animation: {
             duration:5000
         },
+        title : {
+            display: true,
+            text: "Breakdown of Crime in " + region_name + " Region",
+            fontSize: 14,
+            padding: 10
+        },
         legend: {
-            display: false
-         },
+            position: "right"
+        }
     };
 
     var myPieChart = new Chart(pieChartCanvas, {
@@ -486,17 +505,15 @@ function generatePieChart(total_values, region_name, graphColors) {
     });
 }
 
-function generateBarChart(total_values, region_name, graphColors, hoverGraphColors) {
+function generateBarChart(total_values, region_name, graphColors, hoverGraphColors, labels) {
 
     var barChartCanvas = document.getElementById('generatedBarChart' + GRAPHNUMBER);
 
     var data = {
-        labels: [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
-        "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
-        "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"],
+        labels: labels,
         datasets: [
             {
-                label: "Breakdown of Crime in " + region_name + " Region",
+                label: "Number of Reports Per Region" ,
                 backgroundColor: graphColors,
                 borderColor: "rgba(192,192,192,1)",
                 borderWidth: 2,
@@ -510,6 +527,11 @@ function generateBarChart(total_values, region_name, graphColors, hoverGraphColo
     var option = {
         animation: {
             duration:5000
+        },
+        title : {
+            display: true,
+            text: "Breakdown of Crime in " + region_name + " Region",
+            fontSize: 14,
         }
     };
 
@@ -542,6 +564,10 @@ function changeColorOpacity(colors) {
 function loadgraphs(response, region_name) {
     var graphColors = [];
     var hoverGraphColors = [];
+    var labels = [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
+        "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
+        "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"];
+
     total_values = createGraphicalDataTotals(response);
     // Generate random colours for each crime type
     for(var i in total_values) {
@@ -596,8 +622,8 @@ function loadgraphs(response, region_name) {
         id: "generatedPieChart" + GRAPHNUMBER
     }).appendTo($chartDivRight);
 
-    generatePieChart(total_values, region_name, graphColors);
-    generateBarChart(total_values, region_name, graphColors, hoverGraphColors);
+    generatePieChart(total_values, region_name, graphColors, labels);
+    generateBarChart(total_values, region_name, graphColors, hoverGraphColors, labels);
 
     GRAPHNUMBER++;
 }
