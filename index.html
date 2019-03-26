@@ -28,7 +28,7 @@
         <div class="col-sm-3">
             <button class="tablink menuTabs" onclick="openPage('About', this)">About</button>
             <button class="tablink menuTabs" onclick="openPage('Alert', this)">Alert</button>
-            <button class="tablink menuTabs" onclick="openPage('Graphs', this)">Graphs</button>
+            <button id="graphTabID" class="tablink menuTabs"  onclick="openPage('Graphs', this)" disabled>Graphs</button>
         </div>
     </div> 
     
@@ -48,6 +48,7 @@
                     </div>
                 </div>
                 </form>
+
                 <!-- Filter Menu Form -->
                 <div class="padding-5" id="filterForm">
                     <form>
@@ -99,10 +100,17 @@
                             <option>Other Crime</option>
                         </select>
                     </div>
+                    <div class="custom-control custom-switch col-sm-12" id="filterHeatMap">
+                        <input type="checkbox" class="custom-control-input" id="heatMapOption">
+                        <label class="custom-control-label" for="heatMapOption">Toggle Heatmap</label>
+                    </div>
                     </form>
                 </div>
             </div>
             <!-- Map -->
+            <div id="tutorialOneAlert" class="alert alert-warning" role="alert">
+                Click on any region to begin exploring!
+            </div>
             <div id="mapid"></div>
         </div>
     </div>
@@ -326,8 +334,11 @@
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/leaflet.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/font.awesome.js"></script>
+    <script src="js/leaflet-heat.js"></script>
+    <script src="js/canvas-to-blob.min.js"></script>
+    <script src="js/FileSaver.min.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/crime_functions.js"></script>
 
     <!-- Modify to local -->
