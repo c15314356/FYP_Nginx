@@ -16,9 +16,13 @@ $(function() {
     }).done(function(response){
         console.log(response);
         createAndDisplayRegions(response);
+        showTutorialAlert();
     }).fail(function(error){
         console.error('Problem occurred when trying to connect to Node Service API.', error);
     });
+
+    // Open home tab as default on pageload
+    document.getElementById("defaultTab").click(); 
     
     // // Create Ajax request (XMLHTTPRequest)
     // test = $.ajax({
@@ -46,6 +50,11 @@ $(function() {
     accessToken: 'pk.eyJ1IjoiYzE1MzE0MzU2IiwiYSI6ImNqb2ZtcmU5ZjA1anAzdnF6cWVtaWUxMG4ifQ.YoM7Ip2CPDpiIsect76L1Q'
     }).addTo(MAP);
 
+    // Jump to top of page.
+    MAP.on('zoomend', function() {
+        window.scrollTo(0,0);
+    });
+
     //go to my current location WORK ON THESE LATER
     // MAP.locate();
 
@@ -61,7 +70,4 @@ $(function() {
     //     popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(MAP);
     // }
     // MAP.on('click', onMapClick);
-
-    // Open home tab as default on pageload
-    document.getElementById("defaultTab").click(); 
 });
