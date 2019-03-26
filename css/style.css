@@ -93,16 +93,54 @@
     padding: 5px 5px 5px 5px;
 }
 
+/* Adds padding. */
+.padding-10 {
+    padding: 10px 10px 10px 10px;
+}
 
-/* removes margin. */
+
+/* Removes margins. */
 .margin-0 {
     margin: 0;
 }
 
-/* sidenave filterform color. */
+/* Sidenav filterform color. */
 #filterForm {
     color: orange;
 }
 .page-spacing {
     padding-top: 50px;
+}
+
+#modalSpinner {
+    display: none;
+}
+
+#modalSpinnerText {
+    font-size: 18px;
+}
+
+#modalSpinnerIcon {
+    height: 27px;
+    width: 27px;
+}
+
+#modalSpinnerFail {
+    display: none;
+}
+
+#modalSpinnerFailText {
+    font-size: 18px;
+}
+
+.padding-top-25 {
+    padding-top: 25px;
+}
+
+.float-right {
+    float: right;
+}
+
+.margin-right-0 {
+    margin-right: 0px ;
 }

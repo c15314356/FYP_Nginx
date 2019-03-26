@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="leaflet/leaflet.css">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/font.awesome.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- Modify to local -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
@@ -105,8 +106,9 @@
         </div>
     </div>
 
-    <div id="Graphs" class="tabcontent col-sm-12">
-        <canvas id="myChart"></canvas>
+    <div id="Graphs" class="tabcontent col-sm-12 padding-0">
+        <div id="graphCanvas">
+        </div>
     </div>
     <!-- Alert tab information -->
     <div id="Alert" class="tabcontent col-sm-12">
@@ -121,7 +123,7 @@
                     <label><font>
                         Does it feel like the situation could get heated or violent very soon? 
                         Is someone in immediate danger? Do you need support right away? If so, 
-                        please call <b>999</b> now.
+                        please call <b>112</b> now.
                     </font></label>
                 </div>
                 <form>
@@ -158,61 +160,55 @@
             <!-- Alert column two -->
             <div id="crimeReportDetails" class="col-sm-4 page-spacing">
                 <form>                
-                <div class="text-center">
-                    <label><font size="+1">Selected Crime Information</font></label>
-                </div>
-                <div class="text-center">
-                    <label><font>
-                        Please note, this content is dynamically generated based off of a selected crime. 
-                        To fill or reset the selection press the reset button below.
-                    </font></label>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportID">Crime ID</label>
-                        <input type="text" class="form-control" id="crimeReportID" placeholder="Crime ID" disabled>
+                    <div class="text-center">
+                        <label><font size="+1">Selected Crime Information</font></label>
                     </div>
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportDate">Date</label>
-                        <input type="text" class="form-control" id="crimeReportDate" placeholder="Date" disabled>
+                    <div class="text-center">
+                        <label><font>
+                            Please note, this content is dynamically generated based off of a selected crime. 
+                            To fill or reset the selection press the reset button below.
+                        </font></label>
                     </div>
-                </div>
-                <div class="form-row form-group">
-                    <label for="crimeReportReportedBy">Reported By</label>
-                    <input type="text" class="form-control" id="crimeReportReportedBy" placeholder="Location" disabled>
-                </div>
-                <div class="form-row form-group">
-                    <label for="crimeReportCategory">Category</label>
-                    <input type="text" class="form-control" id="crimeReportCategory" placeholder="Category" disabled>
-                </div>
-                <div class="form-row form-group">
-                    <label for="crimeReportOutcome">Last Outcome</label>
-                    <input type="text" class="form-control" id="crimeReportOutcome" placeholder="Outcome" disabled>
-                </div>
-                <div class="text-center">
-                    <label><font size="+1">Location Details</font></label>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportLong">Longitude</label>
-                        <input type="text" class="form-control" id="crimeReportLong" placeholder="Longitude" disabled>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportLat">Latitude</label>
-                        <input type="text" class="form-control" id="crimeReportLat" placeholder="Latitude" disabled>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportLSOACode">LSOA Code</label>
-                        <input type="text" class="form-control" id="crimeReportLSOACode" placeholder="LSOA Code" disabled>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label for="crimeReportLSOAName">LSOA Name</label>
-                        <input type="text" class="form-control" id="crimeReportLSOAName" placeholder="LSOA Name" disabled>
-                    </div>
-                </div>
-                <div class="text-center padding-5">
-                    <button type="submit" class="btn btn-primary" onclick="return false;">Reset Selection</button>
-                </div>
+                    <div id="crimeReportDetailsBody">
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <label for="crimeReportID">Crime ID</label>
+                                <input type="text" class="form-control" id="crimeReportID" placeholder="Crime ID" disabled>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="crimeReportDate">Date</label>
+                                <input type="text" class="form-control" id="crimeReportDate" placeholder="Date" disabled>
+                            </div>
+                        </div>
+                        <div class="form-row form-group">
+                            <label for="crimeReportStreet">Reported By</label>
+                            <input type="text" class="form-control" id="crimeReportStreet" placeholder="Location" disabled>
+                        </div>
+                        <div class="form-row form-group">
+                            <label for="crimeReportCategory">Category</label>
+                            <input type="text" class="form-control" id="crimeReportCategory" placeholder="Category" disabled>
+                        </div>
+                        <div class="form-row form-group">
+                            <label for="crimeReportOutcome">Last Outcome</label>
+                            <input type="text" class="form-control" id="crimeReportOutcome" placeholder="Outcome" disabled>
+                        </div>
+                        <div class="text-center">
+                            <label><font size="+1">Location Details</font></label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <label for="crimeReportLong">Longitude</label>
+                                <input type="text" class="form-control" id="crimeReportLong" placeholder="Longitude" disabled>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="crimeReportLat">Latitude</label>
+                                <input type="text" class="form-control" id="crimeReportLat" placeholder="Latitude" disabled>
+                            </div>
+                        </div>
+                        <div class="text-center padding-5">
+                            <button type="submit" class="btn btn-primary" onclick="return false;">Reset Selection</button>
+                        </div>
+                    </div
                 </form>
                 <div class="col-sm-2"></div>
             </div>
@@ -254,12 +250,84 @@
             <div class="col-sm-3"></div>
         </div>
     </div>
+
+    <div id='crimeInfoModal' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crime Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body col-sm-12" id="crimeInfoBody">
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoID">Crime ID</label>
+                            <span type="text" class="form-control" id="crimeInfoID">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoDate">Date</label>
+                            <span type="text" class="form-control" id="crimeInfoDate">
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <label for="crimeInfoCategory">Category</label>
+                        <span type="text" class="form-control" id="crimeInfoCategory">
+                    </div>
+                    <div class="text-center">
+                        <label><font size="+1">Location Details</font></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoLong">Longitude</label>
+                            <span type="text" class="form-control" id="crimeInfoLong">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="crimeInfoLat">Latitude</label>
+                            <span type="text" class="form-control" id="crimeInfoLat">
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <label for="crimeInfoStreet">Street</label>
+                        <span type="text" class="form-control" id="crimeInfoStreet">
+                    </div>
+                    <div class="text-center"> 
+                        <label><font size="+1">Investigation Details</font></label>
+                    </div>
+                    <div id="crimeInfoOutcomes">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crimeInfoTableBody"></tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="modalSpinner" class="container">
+                        <span id="modalSpinnerText">Fetching Data.... &nbsp; &nbsp;</span>
+                        <span id="modalSpinnerIcon" class="spinner-border text-primary"></span>
+                    </div>
+                    <div id="modalSpinnerFail" class="container text-warning">
+                        <span id="modalSpinnerFailText">This crime currently has no additional information.</span>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-    <script src="bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="leaflet/leaflet.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/crime_functions.js"></script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/font.awesome.js"></script>
+    <script src="js/crime_functions.js"></script>
 
     <!-- Modify to local -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
