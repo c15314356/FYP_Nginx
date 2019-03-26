@@ -348,6 +348,7 @@ function getCrimeInfo(crime_id) {
         console.error('Problem occurred when trying to connect to Polic Data UK API.', error);
         $("#modalSpinnerFail").show();
         $('#modalSpinner').hide();
+        resetAlertSelection();
     });
 }
 
@@ -373,6 +374,16 @@ function setCrimeInfoModal(response){
             text: item.category.name
         }).appendTo($tableRowDate);
     });
+}
+
+function resetAlertSelection() {
+    $('#crimeReportCategory').val("");
+    $('#crimeReportID').val("");
+    $('#crimeReportLat').val("");
+    $('#crimeReportLong').val("");
+    $('#crimeReportStreet').val("");
+    $('#crimeReportDate').val("");
+    $('#crimeReportOutcome').val("");
 }
 
 function setCrimeAlertInfo(response){
