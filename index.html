@@ -43,20 +43,20 @@
                     <div class="padding-5">
                         <input id='searchLocation' class="form-control" type="text" placeholder="Enter Location">
                     </div>
-                    <div class="text-center padding-5">
+                    <div class="text-center">
                         <button type="submit" class="btn btn-primary" onclick="getGeoCoords($('#searchLocation').val()); return false;">Search</button>
                     </div>
                 </div>
                 </form>
 
                 <!-- Filter Menu Form -->
-                <div class="padding-5" id="filterForm">
+                <div class="padding-5-top-0" id="filterForm">
                     <form>
                     <div class="form-group">
                         <label for="yearSelect"><font size="+1">Select Year</font></label>
                         <select class="form-control form-control-sm" id="yearSelect">
                         <option>2019</option>
-                        <option>2018</option>
+                        <option selected>2018</option>
                         <option>2017</option>
                         <option>2016</option>
                         <option>2015</option>
@@ -76,10 +76,12 @@
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio3" value="option3">
                             <label class="form-check-label" for="filterRadio3">Last 6 Months</label>
                         </div>
+                        <!--
                         <div class="form-check form-check-inline col-sm-12">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio4" value="option4">
                             <label class="form-check-label" for="filterRadio4">Entire Year</label>
                         </div>
+                        -->
                     </div>
                     <label for="filterCrimeType"><font size="+1">Crime Type</font></label>
                     <div class="form-group">

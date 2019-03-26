@@ -273,12 +273,12 @@ function centerMapOnCoords(coords) {
 
 /* Creates a marker cluster group and adds it to the map. */
 function addMarkerCLusterGroupsToMap(response) {
-    var markerCluster = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+    CLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
-        addMarkerTypes(crime, markerCluster);
+        addMarkerTypes(crime, CLUSTERLAYER);
     }
-    MAP.addLayer(markerCluster);
+    MAP.addLayer(CLUSTERLAYER);
 }
 
 /* Retrieves geoghraphical data from database and adds them to initial map. */
@@ -295,7 +295,7 @@ function loadRegion(region_name) {
         console.log(response);
         // addMarkerTypesThenAddToMap(response);
         addMarkerCLusterGroupsToMap(response);
-        generateHeatMap(response);
+        addToHeatMapData(response);
         // Visualises graphical data.
         loadgraphs(response, region_name);
     }).fail(function(error){
@@ -303,17 +303,21 @@ function loadRegion(region_name) {
     });
 }
 
-function generateHeatMap(response) {
-    console.log("generateHeatMap");
-    var coordinates = [];
-
+function addToHeatMapData(response){
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
+        HEATMAPCOORDINATES.push(crime);
+    }
+}
+
+function generateHeatMap() {
+    var coordinates = [];
+    for (let i = 0; i < HEATMAPCOORDINATES.length; i++) {
+        crime = HEATMAPCOORDINATES[i];
         coordinates.push([crime.location.coordinates[0], crime.location.coordinates[1], 0.5]);
     }
-    console.log(coordinates);
-    var heatLayer = L.heatLayer(coordinates, {radius: 25});
-    MAP.addLayer(heatLayer);
+    HEATLAYER = L.heatLayer(coordinates, {radius: 25});
+    MAP.addLayer(HEATLAYER);
 }
 
 function showTutorialAlert() {
@@ -459,7 +463,6 @@ function createGraphicalDataTotals(response) {
     
             default:
                 other_crime++;
-                console.log(item.properties.crime_type);
                 break;
         }
     });

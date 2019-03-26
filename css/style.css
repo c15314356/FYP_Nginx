@@ -16,7 +16,7 @@
     left: 0;
     background-color: #555;
     overflow-x: hidden; /* Disable horizontal scroll. */
-    padding-top: 50px; /* Place content 60px from the top. */
+    padding-top: 50px; /* Place content 50px from the top. */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav. */
 }
 
@@ -96,6 +96,11 @@
 /* Adds padding. */
 .padding-10 {
     padding: 10px 10px 10px 10px;
+}
+
+/* Adds padding. */
+.padding-5-top-0 {
+    padding: 0px 5px 5px 5px;
 }
 
 
