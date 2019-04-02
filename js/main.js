@@ -28,23 +28,6 @@ $(function() {
     // Open home tab as default on pageload
     document.getElementById("defaultTab").click(); 
     
-    // // Create Ajax request (XMLHTTPRequest)
-    // test = $.ajax({
-    //     url: 'http://127.0.0.1:9000/login',
-    //     method: 'POST', // METHOD
-    //     // DATA TO SEND
-    //     data: { 
-    //         username: 'test', 
-    //         password: 'hello world'
-    //     }
-    //     // When data received (response == 200)
-    // }).done(function(response){
-    //     console.log(response);
-    //     // When response failed (no internet conenction, connection aborted ect)
-    // }).fail(function(error){
-    //     console.error('Something bad happened.', error);
-    // });
-
     // Add OpenStreetMap tile layer, so we have an actual map.
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -58,10 +41,6 @@ $(function() {
     MAP.on('zoomend', function() {
         window.scrollTo(0,0);
     });
-
-    // $('#heatMapOption').on('switchChange.bootstrapSwitch', function (event, state) {
-    //     console.log("Switch worked");
-    // }); 
 
     $('#heatMapOption').on('change.bootstrapSwitch', function(e) {
         console.log(e.target.checked);

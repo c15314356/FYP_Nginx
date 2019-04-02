@@ -50,22 +50,30 @@ function createPolygon(region) {
     // Polygons used to spilt Map.
     var regionPolygon = L.polygon(region.geometry.coordinates, {opacity: 0.4, fillOpacity: 0.0, color: "orange", weight: 2}).addEventListener('click', function(){
         months = dateRange();
-        loadRegion(region.properties.name, months);
-        $("#filterCrimeTypeLabel").text("Filter On Crime Type");
-        $("#filterCrimeType").removeAttr('disabled');
-        $("#graphTabID").prop("disabled", false);
-        regionPolygon.removeEventListener('click');
+        if(months) {
+            loadRegion(region.properties.name, months);
+            $("#filterCrimeTypeLabel").text("Filter On Crime Type");
+            $("#filterCrimeType").removeAttr('disabled');
+            $("#graphTabID").prop("disabled", false);
+            regionPolygon.removeEventListener('click');
+        }
     })
     MAP.addLayer(regionPolygon);
 }
 
 function dateRange() {
     var year = $('#yearSelect').find(":selected").text();
+    var check = $("input[name='month']:checked").length > 0;
     var months = [];
-    $.each($("input[name='month']:checked"), function(){         
-        months.push({'properties.crime_date': year + '-' + $(this).val()});
-    });
-    return months;
+    if(check){
+        $.each($("input[name='month']:checked"), function(){         
+            months.push({'properties.crime_date': year + '-' + $(this).val()});
+        });
+        return months;
+    }
+    else {
+        alert("Please check at least one month");
+    }
 }
 
 /* Adds special markers to crimes based on type. */
@@ -78,72 +86,58 @@ function addMarkerTypes(crime, markerCluster=null) {
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Burglary':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-            
             case 'Theft from the person':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-            
             case 'Shoplifting':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Robbery':
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Possession of weapons':
                 myIcon = L.icon({iconUrl: 'images/type_weapons.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-                 
             case 'Violence and sexual offences':
                 myIcon = L.icon({iconUrl: 'images/type_assault.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Drugs':
                 myIcon = L.icon({iconUrl: 'images/type_drugs.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-                
             case 'Vehicle crime':
                 myIcon = L.icon({iconUrl: 'images/type_vehicle_crime.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Bicycle theft':
                 myIcon = L.icon({iconUrl: 'images/type_bicycle_theft.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Criminal damage and arson':
                 myIcon = L.icon({iconUrl: 'images/type_criminal_damage_and_arson.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Anti-social behaviour':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-            
             case 'Public order':
                 myIcon = L.icon({iconUrl: 'images/type_public_order.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             case 'Other crime':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-    
             default:
                 addLocationToMap(crime)
                 break;
@@ -156,72 +150,58 @@ function addMarkerTypes(crime, markerCluster=null) {
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Burglary':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-            
             case 'Theft from the person':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-            
             case 'Shoplifting':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Robbery':
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Possession of weapons':
                 myIcon = L.icon({iconUrl: 'images/type_weapons.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
-                break;
-                    
+                break; 
             case 'Violence and sexual offences':
                 myIcon = L.icon({iconUrl: 'images/type_assault.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Drugs':
                 myIcon = L.icon({iconUrl: 'images/type_drugs.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-                
             case 'Vehicle crime':
                 myIcon = L.icon({iconUrl: 'images/type_vehicle_crime.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Bicycle theft':
                 myIcon = L.icon({iconUrl: 'images/type_bicycle_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Criminal damage and arson':
                 myIcon = L.icon({iconUrl: 'images/type_criminal_damage_and_arson.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Anti-social behaviour':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-            
             case 'Public order':
                 myIcon = L.icon({iconUrl: 'images/type_public_order.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             case 'Other crime':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
                 break;
-    
             default:
                 addLocationToMapUsingCLusters(crime)
                 break;
@@ -249,16 +229,13 @@ function openPage(pageName, elmnt) {
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-
     // Remove the background color of all tablinks/buttons.
     tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].style.backgroundColor = "";
     }
-
     // Show the specific tab content
     document.getElementById(pageName).style.display = "block";
-
     // Add the specific color to the button used to open the tab content.
     elmnt.style.backgroundColor = "orange";
 }
@@ -296,7 +273,7 @@ function addMarkerCLusterGroupsToMap(response) {
 }
 
 /* Retrieves geoghraphical data from database and adds them to initial map. */
-function loadRegion(region_name) {
+function loadRegion(region_name, months) {
     $.ajax({
         url: CURRENT_URL + '/db',
         method: 'GET',
@@ -498,8 +475,8 @@ function createGraphicalDataTotals(response) {
         vehicle_crime, other_theft, other_crime]
 }
 
-function generatePieChart(total_values, region_name, graphColors, labels) {
-    var pieChartCanvas = document.getElementById('generatedPieChart' + GRAPHNUMBER);
+function generatePolarChart(total_values, region_name, graphColors, labels) {
+    var PolarChartCanvas = document.getElementById('generatedPolarChart' + GRAPHNUMBER);
     var data = {
         labels: labels,
         datasets: [
@@ -526,7 +503,7 @@ function generatePieChart(total_values, region_name, graphColors, labels) {
         }
     };
 
-    var myPieChart = new Chart(pieChartCanvas, {
+    var myPolarChart = new Chart(PolarChartCanvas, {
         type: 'polarArea',
         data: data,
         options: option
@@ -534,9 +511,7 @@ function generatePieChart(total_values, region_name, graphColors, labels) {
 }
 
 function generateBarChart(total_values, region_name, graphColors, hoverGraphColors, labels) {
-
     var barChartCanvas = document.getElementById('generatedBarChart' + GRAPHNUMBER);
-
     var data = {
         labels: labels,
         datasets: [
@@ -551,7 +526,6 @@ function generateBarChart(total_values, region_name, graphColors, hoverGraphColo
             }
         ]
     };
-
     var option = {
         animation: {
             duration:5000
@@ -562,7 +536,6 @@ function generateBarChart(total_values, region_name, graphColors, hoverGraphColo
             fontSize: 14,
         }
     };
-
     var myBarChart = Chart.Bar(barChartCanvas, {
         data:data,
         options:option
@@ -618,7 +591,7 @@ function loadgraphs(response, region_name) {
     }).appendTo($chartRow);
 
     var $chartDivRight = jQuery('<div/>', {
-        id: "generatedPieChartDiv" + GRAPHNUMBER,
+        id: "generatedPolarChartDiv" + GRAPHNUMBER,
         class: "col-sm-6"
     }).appendTo($chartRow);
 
@@ -649,13 +622,13 @@ function loadgraphs(response, region_name) {
     }).appendTo($chartDivLeft);
 
     jQuery('<canvas/>', {
-        id: "generatedPieChart" + GRAPHNUMBER
+        id: "generatedPolarChart" + GRAPHNUMBER
     }).appendTo($chartDivRight);
 
     var currentChartButtonLeft = $("#chartButtonLeft" + GRAPHNUMBER);
     var currentChartButtonRight = $("#chartButtonRight" + GRAPHNUMBER);
     var currentGeneratedBarChart = $("#generatedBarChart" + GRAPHNUMBER);
-    var currentGeneratedPieChart = $("#generatedPieChart" + GRAPHNUMBER);
+    var currentGeneratedPolarChart = $("#generatedPolarChart" + GRAPHNUMBER);
 
     $(currentChartButtonLeft).click(function() {
         $(currentGeneratedBarChart).get(0).toBlob(function(blob) {
@@ -664,12 +637,12 @@ function loadgraphs(response, region_name) {
     });
 
     $(currentChartButtonRight).click(function() {
-        $(currentGeneratedPieChart).get(0).toBlob(function(blob) {
+        $(currentGeneratedPolarChart).get(0).toBlob(function(blob) {
            saveAs(blob, "chart.png");
        });
     });
 
-    generatePieChart(total_values, region_name, graphColors, labels);
+    generatePolarChart(total_values, region_name, graphColors, labels);
     generateBarChart(total_values, region_name, graphColors, hoverGraphColors, labels);
 
     GRAPHNUMBER++;
