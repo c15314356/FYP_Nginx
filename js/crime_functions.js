@@ -264,12 +264,13 @@ function centerMapOnCoords(coords) {
 
 /* Creates a marker cluster group and adds it to the map. */
 function addMarkerCLusterGroupsToMap(response) {
-    CLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+    CURRENTCLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
-        addMarkerTypes(crime, CLUSTERLAYER);
+        addMarkerTypes(crime, CURRENTCLUSTERLAYER);
     }
-    MAP.addLayer(CLUSTERLAYER);
+    FULLCLUSTERLAYER.addLayer(CURRENTCLUSTERLAYER);
+    MAP.addLayer(FULLCLUSTERLAYER);
 }
 
 /* Retrieves geoghraphical data from database and adds them to initial map. */
@@ -287,7 +288,6 @@ function loadRegion(region_name, months) {
         // addMarkerTypesThenAddToMap(response);
         addMarkerCLusterGroupsToMap(response);
         addToHeatMapData(response);
-        // Visualises graphical data.
         loadgraphs(response, region_name);
     }).fail(function(error){
         console.error('Problem occurred when trying to connect to Node Service API.', error);
@@ -300,6 +300,13 @@ function addToHeatMapData(response){
         HEATMAPCOORDINATES.push(crime);
     }
 }
+
+// function addToMarkerClusterData(response){
+//     for (let i = 0; i < response.length; i++) {
+//         crime = response[i];
+//         HEATMAPCOORDINATES.push(crime);
+//     }
+// }
 
 function generateHeatMap() {
     var coordinates = [];

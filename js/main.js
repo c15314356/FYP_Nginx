@@ -1,7 +1,8 @@
 /* GLOBAL VARIABLES */
 // Creating intial map, zoom level and location.
 var HEATLAYER;
-var CLUSTERLAYER;
+var CURRENTCLUSTERLAYER;
+FULLCLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
 var MAP = L.map('mapid').setView([52.686373, -1.362305], 8);
 LOCAL_URL = 'http://127.0.0.1:9000';
 EXTERNAL_URL = 'http://51.141.10.255:9000';
@@ -46,11 +47,11 @@ $(function() {
         console.log(e.target.checked);
         if(e.target.checked == true) {
             generateHeatMap();
-            MAP.removeLayer(CLUSTERLAYER);
+            MAP.removeLayer(FULLCLUSTERLAYER);
         }
         else {
             MAP.removeLayer(HEATLAYER);
-            MAP.addLayer(CLUSTERLAYER);
+            MAP.addLayer(FULLCLUSTERLAYER);
         }
         
     });
