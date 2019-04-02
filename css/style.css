@@ -118,7 +118,7 @@
 }
 
 #modalSpinner {
-display: none;
+    display: none;
 }
 
 #modalSpinnerText {
@@ -156,3 +156,11 @@ display: none;
     z-index:9999; 
 }
 
+
+#filterCrimeTypeLabel {
+    font-size: large;
+}
+
+.form-check-label{
+    width: 17px;
+}

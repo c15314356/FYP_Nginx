@@ -49,11 +49,23 @@ function createAndDisplayRegions(response) {
 function createPolygon(region) {
     // Polygons used to spilt Map.
     var regionPolygon = L.polygon(region.geometry.coordinates, {opacity: 0.4, fillOpacity: 0.0, color: "orange", weight: 2}).addEventListener('click', function(){
-        loadRegion(region.properties.name);
+        months = dateRange();
+        loadRegion(region.properties.name, months);
+        $("#filterCrimeTypeLabel").text("Filter On Crime Type");
+        $("#filterCrimeType").removeAttr('disabled');
         $("#graphTabID").prop("disabled", false);
         regionPolygon.removeEventListener('click');
     })
     MAP.addLayer(regionPolygon);
+}
+
+function dateRange() {
+    var year = $('#yearSelect').find(":selected").text();
+    var months = [];
+    $.each($("input[name='month']:checked"), function(){         
+        months.push({'properties.crime_date': year + '-' + $(this).val()});
+    });
+    return months;
 }
 
 /* Adds special markers to crimes based on type. */
@@ -290,7 +302,7 @@ function loadRegion(region_name) {
         method: 'GET',
         data:{
             region_name : region_name,
-            crime_date : '2017-11'
+            crime_dates : months
         },
         withCredentials: true
     }).done(function(response){

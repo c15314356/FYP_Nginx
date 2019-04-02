@@ -53,39 +53,67 @@
                 <div class="padding-5-top-0" id="filterForm">
                     <form>
                     <div class="form-group">
-                        <label for="yearSelect"><font size="+1">Select Year</font></label>
+                        <label for="yearSelect"><font size="+1">Load Selected Year & Date </font></label>
                         <select class="form-control form-control-sm" id="yearSelect">
-                        <option>2019</option>
                         <option selected>2018</option>
                         <option>2017</option>
                         <option>2016</option>
                         <option>2015</option>
                         </select>
                     </div>
-                    <label class="form-check-label" for="filterRadioButtons"><font size="+1">Date Range</font></label>
                     <div class="padding-5">
-                        <div class="form-check form-check-inline col-sm-12" id="filterRadioButtons">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio1" value="option1" checked>
-                            <label class="form-check-label" for="filterRadio1">Last Month</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxJan" value="01" name="month" checked>
+                            <label class="form-check-label" for="checkboxJan">Jan</label>
                         </div>
-                        <div class="form-check form-check-inline col-sm-12">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio2" value="option2">
-                            <label class="form-check-label" for="filterRadio2">Last 3 Months</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxFeb" value="02" name="month">
+                            <label class="form-check-label" for="checkboxFeb">Feb</label>
                         </div>
-                        <div class="form-check form-check-inline col-sm-12">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio3" value="option3">
-                            <label class="form-check-label" for="filterRadio3">Last 6 Months</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxMar" value="03" name="month">
+                            <label class="form-check-label" for="checkboxMar">Mar</label>
                         </div>
-                        <!--
-                        <div class="form-check form-check-inline col-sm-12">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="filterRadio4" value="option4">
-                            <label class="form-check-label" for="filterRadio4">Entire Year</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxApr" value="04" name="month">
+                            <label class="form-check-label" for="checkboxApr">Apr</label>
                         </div>
-                        -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxMay" value="05" name="month">
+                            <label class="form-check-label" for="checkboxMay">May</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxJun" value="06" name="month">
+                            <label class="form-check-label" for="checkboxJun">Jun</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxJul" value="07" name="month">
+                            <label class="form-check-label" for="checkboxJul">Jul</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxAug" value="08" name="month">
+                            <label class="form-check-label" for="checkboxAug">Aug</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxSept" value="09" name="month">
+                            <label class="form-check-label" for="checkboxSept">Sep</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxOct" value="10" name="month">
+                            <label class="form-check-label" for="checkboxOct">Oct</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxNov" value="11" name="month">
+                            <label class="form-check-label" for="checkboxNov">Nov</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkboxDec" value="12" name="month">
+                            <label class="form-check-label" for="checkboxDec">Dec</label>
+                        </div>
                     </div>
-                    <label for="filterCrimeType"><font size="+1">Crime Type</font></label>
-                    <div class="form-group">
-                        <select multiple class="form-control" id="filterCrimeType">
+                    <label id="filterCrimeTypeLabel" for="filterCrimeType"><font class="text-danger">Please Select Region to Filter</font></label>
+                    <div id="filterCrimeTypeOptions" class="form-group">
+                        <select multiple class="form-control" id="filterCrimeType" disabled>
                             <option selected>All Crimes</option>
                             <option>Violence &amp; Sexual Offences</option>
                             <option>Public Order</option>
