@@ -44,7 +44,6 @@ $(function() {
     });
 
     $('#heatMapOption').on('change.bootstrapSwitch', function(e) {
-        console.log(e.target.checked);
         if(e.target.checked == true) {
             generateHeatMap();
             MAP.removeLayer(FULLCLUSTERLAYER);
@@ -53,7 +52,6 @@ $(function() {
             MAP.removeLayer(HEATLAYER);
             MAP.addLayer(FULLCLUSTERLAYER);
         }
-        
     });
 
     //go to my current location WORK ON THESE LATER

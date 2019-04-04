@@ -112,23 +112,27 @@
                         </div>
                     </div>
                     <label id="filterCrimeTypeLabel" for="filterCrimeType"><font class="text-danger">Please Select Region to Filter</font></label>
-                    <div id="filterCrimeTypeOptions" class="form-group">
-                        <select multiple class="form-control" id="filterCrimeType" disabled>
+                    <div id="filterCrimeTypeOptions">
+                        <select multiple class="form-control crimeTypeOptions" id="filterCrimeType" disabled>
                             <option selected>All Crimes</option>
                             <option>Violence &amp; Sexual Offences</option>
                             <option>Public Order</option>
                             <option>Drugs</option>
                             <option>Possession of Weapons</option>
-                            <option>Crimal Damage &amp; arson</option>
+                            <option>Criminal Damage &amp; Arson</option>
                             <option>Anti-social Behaviour</option>
                             <option>Robbery</option>
                             <option>Theft From Property (Burglary)</option>
                             <option>Theft From Person</option>
                             <option>Shoplifting</option>
                             <option>Bicycle Theft</option>
+                            <option>Vehicle Crime</option>
                             <option>Other Theft</option>
                             <option>Other Crime</option>
                         </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" onclick="filterCrimes(); return false;">Filter</button>
                     </div>
                     <div class="custom-control custom-switch col-sm-12" id="filterHeatMap">
                         <input type="checkbox" class="custom-control-input" id="heatMapOption">

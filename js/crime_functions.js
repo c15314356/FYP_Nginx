@@ -1,3 +1,20 @@
+clusterSubGroupViolenceAndSexualOffences = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupPublicOrder = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupDrugs = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupPossessionOfWeapons = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupCriminalDamageAndArson = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupAntiSocialBehaviour = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupRobbery = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupVehicleCrime = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupTheftFromPorperty = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupTheftFromPerson = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupShopLifting = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupBicycleTheft = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupOtherTheft = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupOtherCrime = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+clusterSubGroupOtherCrime = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60}); 
+clusterSubGroups = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+
 /* Adds type markers to crimes based off of their type and then assigns them to map. */
 function addMarkerTypesThenAddToMap(response) {
     for (let i = 0; i < response.length; i++) {
@@ -76,6 +93,28 @@ function dateRange() {
     }
 }
 
+function addLocationToSubClusters(crime, clusterSubGroup, myIcon) {
+    var cluster = L.marker(crime.location.coordinates, {icon: myIcon}).addEventListener('click', function() {
+        getCrimeInfo(crime.properties.crime_id);
+        $('#crimeInfoModal').modal('show');
+    });
+    clusterSubGroup.addLayer(cluster);
+}
+
+function getSelectedCrimeTypeFilter() {
+    selectedCrimeTypes = [];
+    $.each($(".crimeTypeOptions option:selected"), function() {            
+        selectedCrimeTypes.push($(this).val());
+    });
+    return selectedCrimeTypes
+}
+
+function filterCrimes() {
+    clusterSubGroups.clearLayers();
+    selectedCrimeTypes = getSelectedCrimeTypeFilter()
+    filterClusterGroupOnMap(selectedCrimeTypes);
+}
+
 /* Adds special markers to crimes based on type. */
 function addMarkerTypes(crime, markerCluster=null) {
     var myIcon;
@@ -122,7 +161,7 @@ function addMarkerTypes(crime, markerCluster=null) {
                 myIcon = L.icon({iconUrl: 'images/type_bicycle_theft.png'});
                 addLocationToMap(crime, myIcon);
                 break;
-            case 'Criminal damage and arson':
+            case 'Criminal damage and Arson':
                 myIcon = L.icon({iconUrl: 'images/type_criminal_damage_and_arson.png'});
                 addLocationToMap(crime, myIcon);
                 break;
@@ -149,61 +188,76 @@ function addMarkerTypes(crime, markerCluster=null) {
             case 'Other theft':
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupOtherTheft, myIcon);
                 break;
             case 'Burglary':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupTheftFromPorperty, myIcon);
                 break;
             case 'Theft from the person':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupTheftFromPerson, myIcon);
                 break;
             case 'Shoplifting':
                 myIcon = L.icon({iconUrl: 'images/type_robbery.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupShopLifting, myIcon);
                 break;
             case 'Robbery':
                 myIcon = L.icon({iconUrl: 'images/type_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupRobbery, myIcon);
                 break;
             case 'Possession of weapons':
                 myIcon = L.icon({iconUrl: 'images/type_weapons.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupPossessionOfWeapons, myIcon);
                 break; 
             case 'Violence and sexual offences':
                 myIcon = L.icon({iconUrl: 'images/type_assault.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupViolenceAndSexualOffences, myIcon);
                 break;
             case 'Drugs':
                 myIcon = L.icon({iconUrl: 'images/type_drugs.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupDrugs, myIcon);
                 break;
             case 'Vehicle crime':
                 myIcon = L.icon({iconUrl: 'images/type_vehicle_crime.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupVehicleCrime, myIcon);
                 break;
             case 'Bicycle theft':
                 myIcon = L.icon({iconUrl: 'images/type_bicycle_theft.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupBicycleTheft, myIcon);
                 break;
             case 'Criminal damage and arson':
                 myIcon = L.icon({iconUrl: 'images/type_criminal_damage_and_arson.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupCriminalDamageAndArson, myIcon);
                 break;
             case 'Anti-social behaviour':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupAntiSocialBehaviour, myIcon);
                 break;
             case 'Public order':
                 myIcon = L.icon({iconUrl: 'images/type_public_order.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupPublicOrder, myIcon);
                 break;
             case 'Other crime':
                 myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
                 addLocationToMapUsingCLusters(crime, markerCluster, myIcon);
+                addLocationToSubClusters(crime, clusterSubGroupOtherCrime, myIcon);
                 break;
             default:
-                addLocationToMapUsingCLusters(crime)
+                myIcon = L.icon({iconUrl: 'images/type_anti_social.png'});
+                addLocationToMapUsingCLusters(crime, clusterSubGroupOtherCrime, myIcon);
                 break;
         }
     }
@@ -264,13 +318,14 @@ function centerMapOnCoords(coords) {
 
 /* Creates a marker cluster group and adds it to the map. */
 function addMarkerCLusterGroupsToMap(response) {
+    selectedCrimeTypes = getSelectedCrimeTypeFilter()
     CURRENTCLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
     for (let i = 0; i < response.length; i++) {
         crime = response[i];
         addMarkerTypes(crime, CURRENTCLUSTERLAYER);
     }
     FULLCLUSTERLAYER.addLayer(CURRENTCLUSTERLAYER);
-    MAP.addLayer(FULLCLUSTERLAYER);
+    filterClusterGroupOnMap(selectedCrimeTypes);
 }
 
 /* Retrieves geoghraphical data from database and adds them to initial map. */
@@ -300,13 +355,6 @@ function addToHeatMapData(response){
         HEATMAPCOORDINATES.push(crime);
     }
 }
-
-// function addToMarkerClusterData(response){
-//     for (let i = 0; i < response.length; i++) {
-//         crime = response[i];
-//         HEATMAPCOORDINATES.push(crime);
-//     }
-// }
 
 function generateHeatMap() {
     var coordinates = [];
@@ -360,7 +408,6 @@ function setCrimeInfoModal(response){
     $('#crimeInfoDate').text(response.crime.month);
 
     response.outcomes.forEach(function(item) {
-        console.log(item.category.name);
         var $tableRowDate = jQuery('<tr/>', {
         }).appendTo('#crimeInfoTableBody');
 
@@ -394,6 +441,99 @@ function setCrimeAlertInfo(response){
     $('#crimeReportOutcome').val(response.outcomes[response.outcomes.length-1].category.name);
 
 
+}
+
+
+function removeAllLayers() {
+    MAP.removeLayer(clusterSubGroupViolenceAndSexualOffences);
+    MAP.removeLayer(clusterSubGroupPublicOrder);
+    MAP.removeLayer(clusterSubGroupDrugs);
+    MAP.removeLayer(clusterSubGroupPossessionOfWeapons);
+    MAP.removeLayer(clusterSubGroupCriminalDamageAndArson);
+    MAP.removeLayer(clusterSubGroupAntiSocialBehaviour);
+    MAP.removeLayer(clusterSubGroupRobbery);
+    MAP.removeLayer(clusterSubGroupVehicleCrime);
+    MAP.removeLayer(clusterSubGroupTheftFromPorperty);
+    MAP.removeLayer(clusterSubGroupTheftFromPerson);
+    MAP.removeLayer(clusterSubGroupShopLifting);
+    MAP.removeLayer(clusterSubGroupBicycleTheft);
+    MAP.removeLayer(clusterSubGroupOtherTheft);
+    MAP.removeLayer(clusterSubGroupOtherCrime);
+    MAP.removeLayer(clusterSubGroupOtherCrime);
+    MAP.removeLayer(FULLCLUSTERLAYER);
+    MAP.removeLayer(clusterSubGroups);
+}
+
+function filterClusterGroupOnMap(selectedCrimeTypes) {
+    removeAllLayers();
+    selectedCrimeTypes.forEach(function(item) {
+        switch (item) {
+            case 'All Crimes':
+                MAP.addLayer(FULLCLUSTERLAYER);
+                break;
+        
+            case 'Violence & Sexual Offences':
+                clusterSubGroups.addLayer(clusterSubGroupViolenceAndSexualOffences);
+                break;
+        
+            case 'Public Order':
+                clusterSubGroups.addLayer(clusterSubGroupPublicOrder);
+                break;
+        
+            case 'Drugs':
+                clusterSubGroups.addLayer(clusterSubGroupDrugs);
+                break;
+        
+            case 'Possession of Weapons':
+                clusterSubGroups.addLayer(clusterSubGroupPossessionOfWeapons);
+                break;
+        
+            case 'Criminal Damage & Arson':
+                clusterSubGroups.addLayer(clusterSubGroupCriminalDamageAndArson);
+                break;
+        
+            case 'Anti-social Behaviour':
+                clusterSubGroups.addLayer(clusterSubGroupAntiSocialBehaviour);
+                break;
+                    
+            case 'Robbery':
+                clusterSubGroups.addLayer(clusterSubGroupRobbery);
+                break;
+        
+            case 'Theft From Property (Burglary)':
+                clusterSubGroups.addLayer(clusterSubGroupTheftFromPorperty);
+                break;
+        
+            case 'Theft From Person':
+                clusterSubGroups.addLayer(clusterSubGroupTheftFromPerson);
+                break;
+        
+            case 'Shoplifting':
+                clusterSubGroups.addLayer(clusterSubGroupShopLifting);
+                break;
+        
+            case 'Bicycle Theft':
+                clusterSubGroups.addLayer(clusterSubGroupBicycleTheft);
+                break;
+
+            case 'Vehicle Crime':
+                clusterSubGroups.addLayer(clusterSubGroupVehicleCrime);
+                break;
+        
+            case 'Other Theft':
+                clusterSubGroups.addLayer(clusterSubGroupOtherTheft);
+                break;
+        
+            case 'Other Crime':
+                clusterSubGroups.addLayer(clusterSubGroupOtherCrime);
+                break;
+        
+            default:
+                console.log("Unidentified selection in filterClusterGroupOnMap()");
+                break;
+        }
+    });
+    MAP.addLayer(clusterSubGroups);
 }
 
 function createGraphicalDataTotals(response) {
@@ -454,7 +594,7 @@ function createGraphicalDataTotals(response) {
                 bicycle_theft++;
                 break;
     
-            case 'Criminal damage and arson':
+            case 'Criminal damage and Arson':
                 criminal_damage_and_arson++;
                 break;
     

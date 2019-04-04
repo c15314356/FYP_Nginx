@@ -103,6 +103,9 @@
     padding: 0px 5px 5px 5px;
 }
 
+#filterCrimeTypeOptions {
+    margin-bottom: .4rem;
+}
 
 /* Removes margins. */
 .margin-0 {
