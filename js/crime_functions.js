@@ -14,6 +14,7 @@ clusterSubGroupOtherTheft = L.markerClusterGroup({disableClusteringAtZoom: 16, m
 clusterSubGroupOtherCrime = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
 clusterSubGroupOtherCrime = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60}); 
 clusterSubGroups = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+var graphColors = [];
 
 /* Adds type markers to crimes based off of their type and then assigns them to map. */
 function addMarkerTypesThenAddToMap(response) {
@@ -594,7 +595,7 @@ function createGraphicalDataTotals(response) {
                 bicycle_theft++;
                 break;
     
-            case 'Criminal damage and Arson':
+            case 'Criminal damage and arson':
                 criminal_damage_and_arson++;
                 break;
     
@@ -708,19 +709,22 @@ function changeColorOpacity(colors) {
     return hoverGraphColors
 }
 
+function createGraphColourScheme() {
+    var i;
+    for(i = 0; i < 14; i++) {
+        graphColors.push(createRandomColor());
+    }
+}
+
 /* All graph generation methods. */
 function loadgraphs(response, region_name) {
-    var graphColors = [];
     var hoverGraphColors = [];
     var labels = [ "Public Order", "Drugs", "Possession of Weapons","Violence & Sexual Offences", 
         "Criminal Damage and Arson", "Anti-social Behaviour", "Robbery", "Burglary", 
         "Theft From Person", "Shoplifting", "Bicycle Theft", "Vehicle Crime", "Other Theft", "Other Crime"];
 
     total_values = createGraphicalDataTotals(response);
-    // Generate random colours for each crime type
-    for(var i in total_values) {
-        graphColors.push(createRandomColor());
-    }
+
     // Generate the hover colors by increasing intensity of color
     hoverGraphColors = changeColorOpacity(graphColors);
 
