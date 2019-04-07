@@ -112,7 +112,7 @@ function getSelectedCrimeTypeFilter() {
 
 function filterCrimes() {
     clusterSubGroups.clearLayers();
-    selectedCrimeTypes = getSelectedCrimeTypeFilter()
+    selectedCrimeTypes = getSelectedCrimeTypeFilter();
     filterClusterGroupOnMap(selectedCrimeTypes);
 }
 
@@ -297,18 +297,15 @@ function openPage(pageName, elmnt) {
 
 /* Creates and ajax request to the mapbox geocoding API to retreive approximation of coords based on search. */
 function getGeoCoords(searchString) {
-    console.log(searchString);
     var accessToken = 'pk.eyJ1IjoiYzE1MzE0MzU2IiwiYSI6ImNqb2ZtcmU5ZjA1anAzdnF6cWVtaWUxMG4ifQ.YoM7Ip2CPDpiIsect76L1Q';
     $.ajax({
-        url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + searchString + '.json?access_token=' + accessToken,
+        url: 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + searchString + ', ' + 'United Kingdom' + '.json?access_token=' + accessToken,
         method: 'GET',
         withCredentials: true
     }).done(function(response){
-        // Log response.
-        // console.log(response)
         centerMapOnCoords(response.features[0].center)
     }).fail(function(error){
-        console.error('Something bad happened.', error);
+        console.error('Unable to retrieve geocoordinate information:', error);
     });
 }
 
@@ -340,7 +337,6 @@ function loadRegion(region_name, months) {
         },
         withCredentials: true
     }).done(function(response){
-        console.log(response);
         // addMarkerTypesThenAddToMap(response);
         addMarkerCLusterGroupsToMap(response);
         addToHeatMapData(response);
@@ -373,6 +369,12 @@ function showTutorialAlert() {
     });
 }
 
+function showSubmitAlert() {
+    $("#submitAlert").fadeTo(3000, 600).slideUp(600, function(){
+        $("#submitAlert").slideUp(600);
+    });
+}
+
 /* Retrieves crime information from UK police API */
 function getCrimeInfo(crime_id) {
     $.ajax({
@@ -387,10 +389,8 @@ function getCrimeInfo(crime_id) {
     }).done(function(response) {
         $("#crimeInfoBody").show();
         $('#modalSpinner').hide();
-        console.log(response);
         setCrimeInfoModal(response);
         setCrimeAlertInfo(response);
-        console.log(response.crime.context);
     }).fail(function(error) {
         console.error('Problem occurred when trying to connect to Polic Data UK API.', error);
         $("#modalSpinnerFail").show();
@@ -424,12 +424,25 @@ function setCrimeInfoModal(response){
 
 function resetAlertSelection() {
     $('#crimeReportCategory').val("");
+    $('#crimeReportCategory').prop("disabled", false);
+
     $('#crimeReportID').val("");
+    $('#crimeReportID').prop("disabled", false);
+
     $('#crimeReportLat').val("");
+    $('#crimeReportLat').prop("disabled", false);
+
     $('#crimeReportLong').val("");
+    $('#crimeReportLong').prop("disabled", false);
+
     $('#crimeReportStreet').val("");
+    $('#crimeReportStreet').prop("disabled", false);
+
     $('#crimeReportDate').val("");
+    $('#crimeReportDate').prop("disabled", false);
+
     $('#crimeReportOutcome').val("");
+    $('#crimeReportOutcome').prop("disabled", false);
 }
 
 function setCrimeAlertInfo(response){
@@ -440,8 +453,6 @@ function setCrimeAlertInfo(response){
     $('#crimeReportStreet').val(response.crime.location.street.name);
     $('#crimeReportDate').val(response.crime.month);
     $('#crimeReportOutcome').val(response.outcomes[response.outcomes.length-1].category.name);
-
-
 }
 
 
@@ -647,6 +658,7 @@ function generatePolarChart(total_values, region_name, graphColors, labels) {
             padding: 10
         },
         legend: {
+            display: false,
             position: "right"
         }
     };

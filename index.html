@@ -8,13 +8,8 @@
     <link rel="stylesheet" href="css/leaflet.css">
     <link rel="stylesheet" href="css/font.awesome.css">
     <link rel="stylesheet" href="css/style.css">
-
-
-    <!-- Modify to local -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
-    <!-- Modify to local -->
-
+    <link rel="stylesheet" href="css/MarkerCluster.css">
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css">
     <title>Crime Explorer Visualised</title>
 </head>
 <body>
@@ -155,6 +150,9 @@
     </div>
     <!-- Alert tab information -->
     <div id="Alert" class="tabcontent col-sm-12">
+        <div id="submitAlert" class="alert alert-success" role="alert">
+            Successfully submitted
+        </div>
         <div class="row">
             <div class="col-sm-2"></div>
             <!-- Alert column one -->
@@ -196,7 +194,7 @@
                     <label><font>To make a report anonymously, leave your personal details section empty. </font></label>
                 </div>
                 <div class="text-center padding-5">
-                    <button type="submit" class="btn btn-primary" onclick="return false;">Submit</button>
+                    <button type="submit" class="btn btn-primary" onclick="showSubmitAlert(); return false;">Submit</button>
                 </div>
                 </form>
             </div>
@@ -363,20 +361,15 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
-
+    <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/leaflet.js"></script>
+    <script src="js/leaflet.markercluster.js"></script>
     <script src="js/font.awesome.js"></script>
     <script src="js/leaflet-heat.js"></script>
     <script src="js/canvas-to-blob.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
-
-    <!-- Modify to local -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
-    <!-- Modify to local -->
-
+    <script src="js/Chart.js"></script>
     <script src="js/main.js"></script>
     <script src="js/crime_functions.js"></script>
 </body>

@@ -1,9 +1,9 @@
 /* GLOBAL VARIABLES */
-// Creating intial map, zoom level and location.
 var HEATLAYER;
 var CURRENTCLUSTERLAYER;
-FULLCLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
+// Creating intial map, zoom level and location.
 var MAP = L.map('mapid').setView([52.686373, -1.362305], 8);
+FULLCLUSTERLAYER = L.markerClusterGroup({disableClusteringAtZoom: 16, maxClusterRadius: 60});
 LOCAL_URL = 'http://127.0.0.1:9000';
 EXTERNAL_URL = 'http://51.141.10.255:9000';
 CURRENT_URL = LOCAL_URL;
@@ -28,6 +28,7 @@ $(function() {
 
     // Open home tab as default on pageload
     document.getElementById("defaultTab").click(); 
+    $('#submitAlert').hide();
     
     // Add OpenStreetMap tile layer, so we have an actual map.
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -41,33 +42,21 @@ $(function() {
         window.scrollTo(0,0);
     });
 
+    // Managing heat toggle 
     $('#heatMapOption').on('change.bootstrapSwitch', function(e) {
         if(e.target.checked == true) {
             generateHeatMap();
-            MAP.removeLayer(FULLCLUSTERLAYER);
+            removeAllLayers();
         }
         else {
             MAP.removeLayer(HEATLAYER);
-            MAP.addLayer(FULLCLUSTERLAYER);
+            filterCrimes();
         }
     });
 
+    // Refreshes map on resizing
+    MAP._onResize(); 
+
     // Creates graph colour scheme on page load.
     createGraphColourScheme();
-
-    //go to my current location WORK ON THESE LATER
-    // MAP.locate();
-
-    // // Geojson.
-    // L.geoJSON(geojsonFeature, {
-    //     // style: myStyle
-    // }).addTo(MAP);
-    // console.log('done');
-
-    // Map events & functions.
-    // var popup = L.popup();
-    // function onMapClick(e) {
-    //     popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(MAP);
-    // }
-    // MAP.on('click', onMapClick);
 });
