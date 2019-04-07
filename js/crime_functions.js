@@ -73,7 +73,10 @@ function createPolygon(region) {
             $("#filterCrimeTypeLabel").text("Filter On Crime Type");
             $("#filterCrimeType").removeAttr('disabled');
             $("#graphTabID").prop("disabled", false);
+            regionPolygon.setStyle({opacity: 1.0, color: "blue"});
+            // MAP.panTo(regionPolygon.getBounds().getCenter());
             regionPolygon.removeEventListener('click');
+            
         }
     })
     MAP.addLayer(regionPolygon);
